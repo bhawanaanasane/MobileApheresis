@@ -1,0 +1,142 @@
+﻿@using MobileAheresisAdmin.Models.Users
+
+@model CustomerListModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+<div class="row">
+
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/Home/Index">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Users List</li>
+
+        </ol>
+    </div>
+
+</div>
+@*<form id="formid" action="UserCustomerList" method="post">
+    <div class="col-md-12">
+        <div class="card bg-white mb-3 font-weight-bold">
+            <a data-toggle="collapse" href="#collapseOne" class="" aria-expanded="true">
+                <div class="card-header" data-widget="collapse">Advance Search <i class="s-14 icon-angle-double-down text-blue font-weight-bold"></i> </div>
+            </a>
+            <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true" style="">
+                <div class="card-body">
+                    <div class="card-title"></div>
+                    <div class="row">
+                        <div class="col-md-4 text-right text-darkenGray">
+                            <label asp-for="SearchName">Name</label>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <input asp-for="SearchName" class="form-control r-0 light s-12 " type="text">
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-5 col-md-offset-5">
+                            <button type="submit" id="search-customer" onclick="showloaderfn()" class="btn-fab shadow btn-primary icon-search"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>*@
+<div class="container-fluid my-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card no-b">
+                <div class="card-body">
+
+
+                    <table id="ReportTable" class="table table-sm table-light  table-bordered table-condensed table-hover data-tables "
+                           data-options='{"searching":false,"sorting":false}'>
+                        <thead class="bg-light text-black">
+                            <tr>
+                                <th width="35%">User Name</th>
+
+                                <th width="30%">Email Id</th>
+                                <th width="15%"> Role</th>
+                                <th width="12%" class="text-center sorting_asc_disabled sorting_desc_disabled">Status</th>
+                                <th width="8%" class="text-center sorting_asc_disabled sorting_desc_disabled"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var customer in Model.ListCustomerModel)
+                            {
+                            <tr>
+                               
+                                <td class="s-12">
+                                    <label>@customer.CustomerName</label>
+                                </td>
+                                <td class="s-12">
+                                    <label>@customer.Email</label>
+                                </td>
+
+                                <td class="s-12">
+                                    <label>@customer.CustomerRoleName</label>
+                                </td>
+
+                                <td class="text-center s-12">
+                                    @if (customer.Status == true)
+                                    {
+                                        <span class="badge badge-success r-5">Active</span>
+
+                                    }
+                                    @if (customer.Status == false)
+                                    {
+
+                                        <span class="badge badge-warning r-5">Inactive</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+
+                                    <a href="~/User/Edit/@customer.Id" onclick="showloaderfn()"><i class="icon-edit lblue-text ml-2 handCursor"></i></a>
+                                    <a data-target="#DeleteModal" data-toggle="modal" onclick="ShowDeleteConfirmationWithResponse('PostDeleteUser(@customer.Id)')"><i class="icon-trash text-red ml-2 handCursor"></i></a>
+                                    
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<a asp-action="Create" onclick="showloaderfn()" class="btn-fab btn-fab-md fab-right fab-right-bottom-fixed shadow btn-primary"><i class="icon-add"></i></a>
+<script src="~/assets/CustomJs/Delete.js"></script>
+<script>
+    //onload start
+
+    $(".alert").fadeOut(5000);//fade out error messages</script>

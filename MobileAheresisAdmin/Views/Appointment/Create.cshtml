@@ -1,0 +1,229 @@
+﻿
+@model MobileAheresisAdmin.Models.Appointment.AppointmentModel
+@{
+    ViewData["Title"] = "Create";
+}
+@* 26/09/19 aakansha *@
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+
+<!-- 20/09/19 aakansha-->
+<form id="formid" asp-controller="Appointment" asp-action="Create" method="post" >
+
+    @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+    {
+        // Bootstrap 2 = "alert-error", Bootstrap 3 and 4 = "alert-danger"
+        <div asp-validation-summary="All" class="alert alert-danger alert-error">
+            <a class="close" data-dismiss="alert">&times;</a>
+        </div>
+    }
+
+
+    <div class="container-fluid ">
+        <div class="col-md-12">
+            <div class="row ">
+                <div class="col-md-6">
+                    <ol class="breadcrumb mt-2">
+                        <li class="breadcrumb-item">
+                            <a href="~/Home/Index">Dashboard</a>
+                        </li>
+
+                        <li class="breadcrumb-item active"> New Appointment</li>
+
+                    </ol>
+                </div>
+                <div class="col-md-6 text-right">
+
+
+
+                    <button type="submit" name="save" class="btn btn-primary btn-sm mt-2 ">
+                        <i class="icon-save mr-2"></i>
+                        Save
+                    </button>
+
+                    @*<button type="submit" name="save-continue" class="btn btn-primary btn-sm ml-2 ">
+            <i class="icon-save mr-2"></i>
+            Save And Countinue
+        </button>*@
+
+
+                </div>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-12">
+
+                <div class="card bg-white mb-3 font-weight-bold">
+
+                    <div class="card-body">
+
+
+                        <!--Customer Details -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-5 text-right">
+                                        <label class="text-right text-darkenGray">Patient Name</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input asp-for="PatientName" class="form-control s-12" type="text">
+                     
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+
+
+                                    <div class="col-md-5 text-right">
+                                        <label class="text-right text-darkenGray">MR</label>
+
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input asp-for="MR" class="form-control s-12" type="text">
+                                            
+                                    </div>
+
+
+
+
+                                </div>
+                              </div>
+
+                                <div class="row  mt-1">
+
+
+                                    <div class="col-md-5 text-right">
+                                        <label class="text-darkenGray">Hospital</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <select class="select2" asp-for="HospitalId" asp-items="Model.AvailableHospitals" type="text"></select>
+                                        @*<input asp-for="HospitalMaster.Id" value="@Model.HospitalId" hidden/>*@
+                                        
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-5 text-right">
+                                    
+                                        <label class="text-darkenGray ">Appointment Date</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input type="text" id="datetime" value="@Model.AppointmentDate.ToString("MM/dd/yyyy")" class="date-time-picker form-control s-12"
+                                                   data-options='{"timepicker":false, "format":"m/d/Y"}' required autocomplete="off">
+
+                                            <span class="input-group-append">
+                                                <span class="input-group-text add-on white">
+                                                    <i class="icon-calendar"></i>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-5 text-right mt-2">
+                                        <button id="btnAddDateRow" class="btn btn-sm btn-primary" type="button" name="btnAddDateRow"><i class="icon-plus mr-2"></i> Add Dates</button>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <table id="tblListFieldData" class="table table-sm table-light table-bordered table-hover mt-2">
+                                            <thead class="bg-light text-black">
+                                                <tr>
+
+                                                    <th width="90%">Appointment Date</th>
+                                                    <th width="10%"></th>
+                                                </tr>
+                                              </thead>
+
+                                            <tbody id="divListFieldRows">
+                                                @{
+                                                    int i = 0;
+                                                    if (Model._appointmentDates != null)
+                                                    {
+                                                        @foreach (var item in Model._appointmentDates)
+                                                        {
+                                                            <tr id="Row_@i" class='clickable'>
+                                                                @Html.Hidden(item.Id.ToString(), new { @id = "AppointmentDateId_" + i, @name = "AppointmentDateId" })
+
+
+                                                                <td class="s-12">
+                                                                    <input name="RowId" id=RowId_@i value=@i hidden />
+                                                                  <input name="AppointmentDates" id="AppointmentDates_@i" asp-for="@Model._appointmentDates[i].AppointmentDates" readonly/>
+                                                                   
+
+                                                                </td>
+                                                                <td class="text-center">
+
+                                                                    <a onclick="LoadBinDetailsWhenCreate(@i);showloaderfn();"><i class="icon-add s-14 ml-2 text-blue handCursor"></i></a>
+                                                                    <a onclick="ViewBinDetails(@i,@item.Id);showloaderfn();"><i class="s-14 icon-eye blue-text  handCursor"></i></a>
+                                                                    <a style="display:none" id="SuccessIcon_@i"><i class="icon-check3 text-green font-weight-bolder ml-2"></i></a>
+                                                                    <a id="remove_@i" data-target="#DeleteModal" data-toggle="modal" onclick="ShowDeleteConfirmationWithResponse('PostDeletePickupListItem(@i,@Model.Id)')"> <i class="icon-cancel text-red ml-2 handCursor"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            i++;
+                                                        }
+
+                                                    }
+                                                    
+                                                }
+                                                
+
+                                          
+</tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+
+
+
+
+<script src="~/assets/CustomJs/AppointmentDates.js"></script>
+<script src="~/assets/lib/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    //add products to product table
+    $("#btnAddDateRow").click(function () {
+        var AppointmentDateData = document.getElementById("datetime").value;
+
+        //var List = JSON.parse(AppointmentDateData);
+        //this function is in Pickup.js file for adding products
+        AddRowsToAppointmentDates(AppointmentDateData, 0);
+    })
+
+
+
+</script>
+

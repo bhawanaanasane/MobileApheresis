@@ -1,0 +1,265 @@
+﻿@model MobileAheresisAdmin.Models.Users.CustomerModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+
+
+
+
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+<div class="row">
+
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/Home/Index">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active"><a href="~/User/Index">User List</a></li>
+            <li class="breadcrumb-item active">Add New User</li>
+
+        </ol>
+    </div>
+
+</div>
+<form id="formid" asp-action="CreateUserCustomer" method="post">
+
+    @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+    {
+        // Bootstrap 2 = "alert-error", Bootstrap 3 and 4 = "alert-danger"
+        <div asp-validation-summary="All" class="alert alert-danger alert-error">
+            <a class="close" data-dismiss="alert">&times;</a>
+        </div>
+    }
+
+
+    <div class="container-fluid ">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row float-right">
+
+                        <button type="submit" name="save" class="btn btn-primary btn-sm ">
+                            <i class="icon-save mr-2"></i>
+                            Save
+                        </button>
+
+                        @*<button type="submit" name="save-continue" class="btn btn-primary btn-sm ml-2 ">
+                                <i class="icon-save mr-2"></i>
+                                Save And Countinue
+                            </button>*@
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-12">
+
+                <div class="card bg-white mb-3 font-weight-bold">
+
+                    <div class="card-body">
+                        <div class="card-title"></div>
+
+                        <!--Customer Details -->
+
+
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label class="text-right text-darkenGray">First Name</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="BillingAddress.FirstName" class="form-control s-12" type="text">
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-1 text-right">
+                                <label class="text-right text-darkenGray">Address</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="BillingAddress.Address1" class="form-control s-12" type="text">
+                                   
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-1">
+                            <div class="col-md-2 text-right">
+                                <label class="text-darkenGray">Last Name</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="BillingAddress.LastName" class="form-control s-12 " type="text">
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-1 text-right">
+                                <label class="text-darkenGray">Address2</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="BillingAddress.Address2" class="form-control s-12 " type="text">
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row  mt-1">
+                            <div class="col-md-2 text-right">
+                                <label class="text-darkenGray">Email Id</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="BillingAddress.Email" class="form-control s-12 " type="text">
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-1 text-right">
+                                <label class="text-darkenGray" asp-for="StateProvinceId">State</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="BillingAddress.StateProvince" class="form-control s-12 " type="text">
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row  mt-1">
+                            <div class="col-md-2 text-right">
+                                <label class="text-darkenGray">Password</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="CustomerPassword.Password" class="form-control s-12 " type="text">
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-1 text-right">
+                                <label class="text-darkenGray">City</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="BillingAddress.City" class="form-control s-12 " type="text">
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row  mt-1">
+                            <div class="col-md-2 text-right">
+                                <label class="text-darkenGray">Contact No.</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="BillingAddress.PhoneNumber" class="form-control s-12 " type="text">
+                                    
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 text-right">
+                                <label class="text-darkenGray">Zip Code</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="BillingAddress.ZipPostalCode" class="form-control s-12 " type="text">
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row  mt-1">
+                            <div class="col-md-2 text-right">
+                                <label class="text-darkenGray">Role</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <select class="select2" asp-for="CustomerRoleId" asp-items="Model.AvailableCustomerRoles"></select>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-2 text-right ">
+
+                            </div>
+                            <div class="col-md-4  ">
+                                <div class="custom-control custom-checkbox mb-3 ml-1 ">
+                                    <input type="checkbox" asp-for="Active" class="custom-control-input">
+                                    <label class="custom-control-label text-darkenGray" asp-for="Active"></label>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+<script src="~/assets/CustomJs/CreateRFQ.js"></script>
+<script src="~/assets/lib/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+
+
+    //onload start
+
+    $(".alert").fadeOut(5000);//fade out error messages
+    //Fill state details by Country Id
+    function GetStateByCountryId(stateId) {
+        $.post("/Customer/GetStateByCountryId",
+            {
+                Id: $("#BillingAddress_CountryId").val(),
+                SelectedId: $("#BillingAddress_StateProvinceId").val()
+            },
+            function (data, status) {
+                //clear previous filled states
+                $("#BillingAddress_StateProvinceId").html("");
+
+                //append the states from selected country id
+                $.each(data, function (i, item) {
+                    $("#BillingAddress_StateProvinceId").append(
+                        $('<option></option>').val(item.value).html(item.text));
+                });
+
+                $("#BillingAddress_StateProvinceId").val(stateId).trigger('change');
+            });
+    }
+</script>
+
+
+
+
+
+

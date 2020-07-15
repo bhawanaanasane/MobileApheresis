@@ -1,0 +1,460 @@
+﻿@model MobileAheresisAdmin.Models.Nurses.NurseModel
+@using CRM.Core.Domain.Nurses
+@using MobileAheresisAdmin.Utils
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script src="~/assets/js/jquery.unobtrusive-ajax.js"></script>
+<div class="row">
+
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/Home/Index">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active"><a href="~/Nurse/Index">Nurse List</a></li>
+            <li class="breadcrumb-item active">Add New Nurse</li>
+
+        </ol>
+    </div>
+
+</div>
+
+
+
+<div class="container-fluid my-3">
+    <div class="col-md-12">
+        <div class="card no-b">
+            <div class="card-header white pb-0">
+                <div class="d-flex justify-content-between">
+                    <div class="align-self-center">
+                        <ul class="nav nav-pills mb-3" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active show r-20" id="w3--tab1" data-toggle="tab" href="#w3-tab1" role="tab" aria-controls="tab1" aria-expanded="true" aria-selected="true">General</a>
+                            </li>
+                            @if (Model.Id != 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link r-20 " id="w3--tab3" data-toggle="tab" href="#w3-tab3" role="tab" aria-controls="tab3" aria-selected="false">Documents</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link r-20  disabled" id="w3--tab3" data-toggle="tab" href="#w3-tab3" role="tab" aria-controls="tab3" aria-selected="false">Documents</a>
+                                </li>
+                            }
+
+
+                        </ul>
+                    </div>
+
+
+                </div>
+
+                <div class="card-body no-p">
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active" id="w3-tab1" role="tabpanel" aria-labelledby="w3-tab1">
+
+                            <form asp-action="CreateNurse" method="post" data-ajax-failure="onFailedCreateGeneral" data-ajax-success="onSuccessCreateGeneral"
+                                  data-ajax="true" data-ajax-method="POST">
+                                @Html.HiddenFor(a => a.Id)
+
+
+                                <div class="row mt-1">
+                                    <div class="col-md-12">
+
+                                        <div class="card bg-white mb-3 font-weight-bold">
+
+                                            <div class="card-body s-12">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <div class="col-md-4 text-right text-black">
+                                                                <label class="text-right">First Name</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <input asp-for="BillingAddress.FirstName" class="form-control s-12" type="text">
+                                                                    <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.FirstName" data-valmsg-replace="true"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-1">
+                                                            <div class="col-md-4 text-right text-black">
+                                                                <label>Last Name</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <input asp-for="BillingAddress.LastName" class="form-control s-12 " type="text">
+                                                                    <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.LastName" data-valmsg-replace="true"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-1">
+                                                            <div class="col-md-4 text-right text-black">
+                                                                <label>Email Id</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <input asp-for="BillingAddress.Email" class="form-control s-12 " type="text">
+                                                                    <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.Email" data-valmsg-replace="true"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-1">
+                                                            <div class="col-md-4 text-right text-black">
+                                                                <label>Password</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <input asp-for="CustomerPassword.Password" class="form-control s-12 " type="password">
+                                                                    <span class="field-validation-valid text-danger" data-valmsg-for="CustomerPassword.Password" data-valmsg-replace="true"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-1">
+                                                            <div class="col-md-4 text-right text-black">
+                                                                <label>Contact No.</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <input asp-for="BillingAddress.PhoneNumber" class="form-control s-12 " type="text">
+                                                                    <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.PhoneNumber" data-valmsg-replace="true"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+
+                                                            <div class="col-md-4 text-right text-black">
+                                                                <label class="text-right">Address</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <input asp-for="BillingAddress.Address1" class="form-control s-12" type="text">
+                                                                    <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.Address1" data-valmsg-replace="true"></span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="row mt-1">
+
+                                                            <div class="col-md-4 text-right text-black">
+                                                                <label>Address2</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <input asp-for="BillingAddress.Address2" class="form-control s-12 " type="text">
+                                                                    <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.Address2" data-valmsg-replace="true"></span>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
+
+                                                        <div class="row  mt-1">
+
+                                                            <div class="col-md-4 text-right text-black">
+                                                                <label asp-for="StateProvinceId">State</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <input asp-for="BillingAddress.StateProvince" class="form-control s-12 " type="text">
+                                                                    <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.StateProvince" data-valmsg-replace="true"></span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="row  mt-1">
+
+                                                            <div class="col-md-4 text-right text-black">
+                                                                <label>City</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <input asp-for="BillingAddress.City" class="form-control s-12 " type="text">
+                                                                    <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.City" data-valmsg-replace="true"></span>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="row  mt-1">
+
+                                                            <div class="col-md-4 text-right text-black">
+                                                                <label>Zip Code</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group">
+                                                                    <input asp-for="BillingAddress.ZipPostalCode" class="form-control s-12 " type="text">
+                                                                    <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.ZipPostalCode" data-valmsg-replace="true"></span>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <!--Nurse Details -->
+
+
+
+
+                                                </div>
+
+                                            </div>
+                                            @* 10/10/2019 aakansha *@
+                                            @* Submit Button in Card Footer *@
+                                            <div class="card-footer white">
+                                                <div class="col-md-12 text-right ">
+                                                    <div class="col-md-12 row">
+                                                        <div class="col-md-7"></div>
+                                                        <div class="col-md-5 pr-5">
+                                                            <button type="submit" name="save-continue" id="GenerealSubmitbtn" onclick="showloaderfn()" class="btn btn-primary btn-sm ml-2 ">
+                                                                <i class="icon-save mr-2"></i>
+                                                                Submit
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </form>
+
+                        </div>
+
+
+
+
+
+
+                        <div class="tab-pane fade" id="w3-tab3" role="tabpanel" aria-labelledby="w3-tab3">
+                            <form method="post" enctype="multipart/form-data" asp-controller="Nurse" asp-action="UploadNurseDocument">
+
+
+                                <div class="row mt-1">
+                                    <div class="col-md-12">
+
+                                        <div class="card bg-white mb-3 font-weight-bold ">
+
+                                            <div class="card-body s-12">
+                                                <input id="CompanyProfileIdForUploadCompanyDocument" name="CompanyProfileId" value="@Model.Id" hidden />
+                                                <div class="row">
+                                                    <div class="col-md-3 text-right">
+                                                        <label class="text-darkenGray">Document Type</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <div class="input-group">
+                                                            <select class="select2" asp-for="DocumentTypeId" asp-items="@(((DocumentType)Model.DocumentTypeId).ToSelectList())"></select>
+                                                            <span class="field-validation-valid text-danger" data-valmsg-for="DocumentTypeId" data-valmsg-replace="true"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1 ">
+                                                    <div class="col-md-3 text-right">
+                                                        <label class="text-darkenGray">Select File</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <input type="file" id="documentFile" name="documentFile" />
+                                                    </div>
+
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-12 text-right">
+                                                        <button id="btnUpload" type="button" onclick="showloaderfn()" class="btn btn-primary btn-sm mt-1">
+
+                                                            <i class="icon-save mr-2"></i>
+                                                            Submit
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1 ">
+                                                    <div class="col-md-12 p-0">
+                                                        <div id="CompanyDocumentList">
+                                                            @Html.Partial("_NurseDocuments", Model.NurseDocuments)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+   
+
+<script type="text/javascript">
+     
+    function onSuccessCreateGeneral(data) {
+        //Hide Loader after success
+        hideloaderfn();
+        $("#Id").val(data);
+        $("#CompanyProfileIdForCreateProcedure").val(data);
+        $("#CompanyProfileIdForUploadCompanyDocument").val(data);
+        //Bhawana(4/10/2019)
+        //Remove disable class of document tab
+        $("#w3--tab3").removeClass("disabled");
+        //disable submit button
+        $("#GenerealSubmitbtn").prop("disable", true);
+        //remove onclick event of submit button
+        $("#GenerealSubmitbtn").prop("onclick", null).off("click");
+    };
+
+
+
+    $('#btnUpload').click(function () {
+       
+        // Checking whether FormData is available in browser
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#documentFile").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object
+            fileData.append('Document', $("#Document").val());
+            fileData.append('DocumentTypeId', $("#DocumentTypeId").val());
+            fileData.append('NurseMasterId', $("#CompanyProfileIdForUploadCompanyDocument").val());
+
+            $.ajax({
+                url: '/Nurse/UploadNurseDocument',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    onSuccessUploadCompanyDocument(result);
+                },
+                error: function (err) {
+                    onFailedUploadCompanyDocument(result);
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    });
+
+    function onSuccessUploadCompanyDocument(data) {
+        var url = "/Nurse/NurseDocuments";
+        var jsonData = {
+            NurseId: data
+        };
+
+        $("#CompanyDocumentList").load(url, jsonData, function (response, status, xhr) {
+           hideloaderfn();
+        });
+
+    };
+
+    function onFailedUploadCompanyDocument(data) {
+
+    };
+
+
+    function DownloadCompanyDocument(documentId) {
+        var jsonData = {
+
+            DocumentId: documentId,
+            CompanyProfileId: $("#CompanyProfileIdForUploadCompanyDocument").val()
+        };
+
+        $.post("/CompanyProfile/DownloadDocument",
+
+            jsonData
+            ,
+            function (data, status) {
+                download(data);
+            });
+
+    }
+
+    function DeleteCompanyDocument(documentId) {
+        var url = "/CompanyProfile/DeleteCompanyDocument";
+        var jsonData = {
+
+            DocumentId: documentId,
+            CompanyProfileId: $("#CompanyProfileIdForUploadCompanyDocument").val()
+        };
+
+        $("#CompanyDocumentList").load(url, jsonData, function (response, status, xhr) {
+            hideloaderfn();
+        });
+
+
+    }
+
+
+    var download = function (downloadURL) {
+
+        location = downloadURL;
+
+    };
+
+  //correct usage
+
+
+</script>

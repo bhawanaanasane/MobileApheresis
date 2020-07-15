@@ -1,0 +1,672 @@
+@model MobileAheresisAdmin.Models.CompanyProfiles.CompanyProfileModel
+@using System.ComponentModel;
+@using  CRM.Core.Domain.CompanyProfiles;
+@{
+    ViewData["Title"] = "Create";
+}
+@* 26/09/19 aakansha *@
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script src="~/assets/js/jquery.unobtrusive-ajax.js"></script>
+<div class="row">
+
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/Home/Index">Dashboard</a>
+            </li>
+            @*<li class="breadcrumb-item active"><a href="~/CompanyProfile">CompanyProfile List</a></li>*@
+            <li class="breadcrumb-item active">Add New Company Profile</li>
+
+        </ol>
+    </div>
+
+</div>
+
+<div class="container-fluid my-3">
+    <div class="col-md-12">
+        <div class="card no-b">
+            <div class="card-header white pb-0">
+                <div class="d-flex justify-content-between">
+                    <div class="align-self-lg-start mr-4">
+
+                        <ul class="nav nav-pills mb-3" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active show r-20" id="w3--tab1" data-toggle="tab" href="#w3-tab1" role="tab" aria-controls="tab1" aria-expanded="true" aria-selected="true">General</a>
+                            </li>
+                            @if (Model.Id  != 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link r-20 " id="w3--tab2" data-toggle="tab" href="#w3-tab2" role="tab" aria-controls="tab2" aria-selected="false">Policies and Procedures</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link r-20 " id="w3--tab3" data-toggle="tab" href="#w3-tab3" role="tab" aria-controls="tab3" aria-selected="false">Documents</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link r-20  " id="w3--tab4" data-toggle="tab" href="#w3-tab4" role="tab" aria-controls="tab4" aria-selected="false">Download History</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link r-20 disabled" id="w3--tab2" data-toggle="tab" href="#w3-tab2" role="tab" aria-controls="tab2" aria-selected="false">Policies and Procedures</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link r-20 disabled" id="w3--tab3" data-toggle="tab" href="#w3-tab3" role="tab" aria-controls="tab3" aria-selected="false">Documents</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link r-20 disabled" id="w3--tab4" data-toggle="tab" href="#w3-tab4" role="tab" aria-controls="tab4" aria-selected="false">Download History</a>
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="card-body no-p">
+                <div class="tab-content">
+
+                    <div class="tab-pane fade show active " id="w3-tab1" role="tabpanel" aria-labelledby="w3-tab1">
+
+                        <form asp-controller="CompanyProfile" asp-action="CreateGeneral" method="post" data-ajax-failure="onFailedCreateGeneral" data-ajax-success="onSuccessCreateGeneral"
+                              data-ajax="true" data-ajax-method="POST">
+                            @Html.HiddenFor(a => a.Id)
+                            @Html.HiddenFor(a => a.CompanyAddressId)
+
+
+                            <div class="card bg-white mb-3 font-weight-bold">
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-4 text-right text-black">
+                                                    <label class="text-right">Company Name</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input asp-for="Companyname" class="form-control s-12" type="text">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-1">
+                                                <div class="col-md-4 text-right text-black">
+                                                    <label>
+                                                        Owner First Name
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input asp-for="CompanyAddress.FirstName" class="form-control s-12 " type="text">
+                                           
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-4 text-right text-black">
+                                                    <label>Owner Last Name</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input asp-for="CompanyAddress.LastName" class="form-control s-12 " type="text">
+                                                     
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-4 text-right text-black">
+                                                    <label>Email Id</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input asp-for="CompanyAddress.Email" class="form-control s-12 " type="email">
+                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-4 text-right text-black">
+                                                    <label>Office Phone.</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input asp-for="CompanyAddress.PhoneNumber" class="form-control s-12 " type="text">
+                                            
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+
+
+                                                <div class="col-md-4 text-right text-black">
+                                                    <label>License</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input asp-for="License" class="form-control s-12 " type="text">
+                                                        
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+
+                                                <div class="col-md-4 text-right text-black">
+                                                    <label class="text-right">Address</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input asp-for="CompanyAddress.Address1" class="form-control s-12" type="text">
+                                                       
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row mt-1">
+
+                                                <div class="col-md-4 text-right text-black">
+                                                    <label>Address2</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input asp-for="CompanyAddress.Address2" class="form-control s-12 " type="text">
+                                                        
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row  mt-1">
+
+                                                <div class="col-md-4 text-right text-black">
+                                                    <label asp-for="CompanyAddress.StateProvince">State</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input asp-for="CompanyAddress.StateProvince" class="form-control s-12 " type="text">
+                                                        
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="row  mt-1">
+
+                                                <div class="col-md-4 text-right text-black">
+                                                    <label>City</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input asp-for="CompanyAddress.City" class="form-control s-12 " type="text">
+                                                        
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row  mt-1">
+
+                                                <div class="col-md-4 text-right text-black">
+                                                    <label>Zip Code</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group">
+                                                        <input asp-for="CompanyAddress.ZipPostalCode" class="form-control s-12 " type="text">
+                                                        
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                                @* 10/10/2019 aakansha *@
+                                @* Submit Button in Card Footer *@
+                                <div class="card-footer white border-0">
+                                    <div class="col-md-12 text-right ">
+                                        <div class="col-md-12 row">
+                                            <div class="col-md-7"></div>
+                                            <div class="col-md-5 pr-5">
+                                                <button type="submit" name="save-continue" id="GenerealSubmitbtn" onclick="showloaderfn()" class="btn btn-primary btn-sm ml-2 ">
+                                                    <i class="icon-save mr-2"></i>
+                                                    Submit
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+
+
+
+                    <div class="tab-pane fade" id="w3-tab2" role="tabpanel" aria-labelledby="w3-tab2">
+                        <form asp-action="CreatePolicyAndProcedure" method="post" data-ajax-failure="onFailedCreatePolicyAndProcedure" data-ajax-success="onSuccessCreatePolicyAndProcedure"
+                              data-ajax="true" data-ajax-method="POST">
+                            <div class="row mt-1">
+                                <div class="col-md-12">
+
+                                    <div class="card bg-white mb-3 font-weight-bold border-0">
+
+                                        <div class="card-body s-12">
+
+                                            <input id="CompanyProfileIdForCreateProcedure" name="CompanyProfileId" value="@Model.Id" hidden />
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <label class="text-darkenGray">Text</label>
+                                                </div>
+                                                <div class="col-md-11">
+                                                    <div class="input-group">
+                                                        <textarea asp-for="Text" rows="20" class="form-control s-12" type="text"></textarea>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-1">
+                                                    <label class="text-darkenGray">Type</label>
+                                                </div>
+                                                <div class="col-md-11">
+                                                    <div class="form-group m-0">
+                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                            <input type="radio" id="1" value="true" asp-for="IsPolicy" class="custom-control-input">
+                                                            <label class="custom-control-label m-0" for="1">Policy</label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                            <input type="radio" id="0" value="false" asp-for="IsPolicy" class="custom-control-input">
+                                                            <label class="custom-control-label m-0" for="0">Procedure</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mt-1 border-top-1">
+                                                <div class="col-md-12 text-right">
+                                                    <button type="submit" id="PoliciesAndProceduresSubmitbtn" onclick="showloaderfn()" class="btn btn-primary btn-sm mt-1">
+
+                                                        <i class="icon-save mr-2"></i>
+                                                        Submit
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1 border-top-1">
+                                                <div class="col-md-12 p-0">
+                                                    @if (Model.policiesAndProcedures != null)
+                                                    {
+                                                        <div id="PolicyAndProcedureList">
+
+                                                            @Html.Partial("_PoliciesAndProcedures", Model.policiesAndProcedures)
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="text-center">
+                                                            <h5 colspan="8">No data available</h5>
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="w3-tab3" role="tabpanel" aria-labelledby="w3-tab3">
+                        <form method="post" enctype="multipart/form-data" asp-controller="Product" asp-action="UploadCompanyDocument">
+
+
+                            <div class="row mt-1">
+                                <div class="col-md-12">
+
+                                    <div class="card bg-white mb-3 font-weight-bold border-0">
+
+                                        <div class="card-body s-12">
+                                            <input id="CompanyProfileIdForUploadCompanyDocument" name="CompanyProfileId" value="@Model.Id" hidden />
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label class="text-darkenGray">Document Name</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <div class="input-group">
+                                                        <input asp-for="DocumentName" class="form-control s-12" type="text" required>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1 ">
+                                                <div class="col-md-3">
+                                                    <label class="text-darkenGray">Select File</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="file" id="documentFile" name="documentFile" />
+                                                </div>
+
+                                            </div>
+                                            <div class="row mt-1 border-top-1">
+                                                <div class="col-md-12 text-right">
+                                                    <button id="btnUpload" type="button" onclick="showloaderfn()" class="btn btn-primary btn-sm mt-1">
+
+                                                        <i class="icon-save mr-2"></i>
+                                                        Submit
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1 border-top-1">
+                                                <div class="col-md-12 p-0">
+                                                    @if (Model.companyDocuments != null)
+                                                    {
+                                                        <div id="CompanyDocumentList">
+                                                            @Html.Partial("_CompanyDocuments", Model.companyDocuments)
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="text-center">
+                                                            <h5 colspan="8">No data available</h5>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                        </form>
+                    </div>
+
+                    <!--16/09/19 aakansha-->
+                    <div class="tab-pane fade" id="w3-tab4" role="tabpanel" aria-labelledby="w3-tab4">
+
+
+                        <table id="ReportTable" class="table table-sm table-light  table-bordered  table-condensed table-hover dataTables_paginate  " onclick="showloaderfn()">
+                            <thead class="bg-light text-black">
+                                <tr>
+                                    @*<th class="sorting_asc_disabled sorting_desc_disabled" width="3%">
+
+                                        </th>*@
+                                    <th class="text-left" width="10%">Document Type</th>
+                                    <th class="text-left" width="10%">Document Name</th>
+                                    <th class="text-left" width="10%">Document Format</th>
+                                    <th class="text-left" width="10%">DownloadDateTime</th>
+                                    <th class="text-left" width="10%">Process Type</th>
+                                    <th class="sorting_asc_disabled sorting_desc_disabled" width="7%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model.DownloadHistoryList.Count() != 0)
+                                    {
+                                        //To make unique Id
+                                        int i = 0;
+                                        @foreach (var item in Model.DownloadHistoryList)
+                                        {
+                                            <tr>
+                                                @Html.HiddenFor(o => o.DownloadHistoryList[i].Id)
+                                                @Html.HiddenFor(modelItem => item.Id)
+
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DocType)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DocName)
+                                                </td>
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DocFormat)
+                                                </td>
+                                                <td>
+
+                                                    @{ var DownloadDateTime = item.DownloadDateTime.ToShortDateString();}
+                                                    @DownloadDateTime
+                                                </td>
+                                                <td>
+
+                                                    @{ var type = typeof(ProcessType);
+                                                        var member = type.GetMember(item.ProcessType.ToString());
+                                                        var attributes = member[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                                                        var name = ((DescriptionAttribute)attributes[0]).Description;
+                                                        <div class="Processtype"><span class="badge Processtypestatus-@item.ProcessType.ToString().ToLowerInvariant()">@item.ProcessType</span></div>
+                                                        }
+                                                    </td>
+
+
+                                                    <td class="text-center">
+                                                        <a href="~/CompanyProfile/Edit/@item.Id" onclick="showloaderfn()"><i class="icon-edit lblue-text  handCursor"></i></a>
+                                                        @*<a data-target="#DeleteModal" data-toggle="modal" onclick="ShowDeleteConfirmationWithResponse('PostDeleteCompanyProfile(@item.Id)')"><i class="icon-trash text-red ml-2 handCursor"></i></a>*@
+                                                    </td>
+                                                </tr>
+
+                                                i++;
+                                            }
+                                    }
+                                    else
+                                    {
+                                        <tr class="text-center">
+                                            <td colspan="8">No data available</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function onSuccessCreateGeneral(data) {
+
+        //Hide Loader after success
+        hideloaderfn();
+        $("#Id").val(data);
+        $("#CompanyProfileIdForCreateProcedure").val(data);
+        $("#CompanyProfileIdForUploadCompanyDocument").val(data);
+        //Remove disable class of document tab
+        $("w3--tab2").removeClass("disabled");
+        $("w3--tab3").removeClass("disabled");
+        $("w3--tab4").removeClass("disabled");
+        //disable submit button
+        $("#GenerealSubmitbtn").prop("disable", true);
+        //remove onclick event of submit button
+        $("#GenerealSubmitbtn").prop("onclick", null).off("click");
+
+    };
+
+    function onFailedCreateGeneral(data) {
+
+    };
+
+    function onSuccessCreatePolicyAndProcedure(data) {
+
+
+        var url = "/CompanyProfile/PoliciesAndProcedures";
+        var jsonData = {
+            CompanyProfileId: data
+        };
+
+
+        $("#PolicyAndProcedureList").load(url, jsonData, function (response, status, xhr) {
+            $("#loader").hide();
+            $("w3--tab3").removeClass("disabled");
+            $("w3--tab4").removeClass("disabled");
+        });
+
+
+
+
+    };
+
+    function onFailedCreatePolicyAndProcedure(data) {
+
+    };
+
+
+
+    $('#btnUpload').click(function () {
+        debugger
+        // Checking whether FormData is available in browser
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#documentFile").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object
+            fileData.append('DocumentName', $("#DocumentName").val());
+            fileData.append('CompanyProfileId', $("#CompanyProfileIdForUploadCompanyDocument").val());
+
+            $.ajax({
+                url: '/CompanyProfile/UploadCompanyDocument',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    onSuccessUploadCompanyDocument(result);
+                },
+                error: function (err) {
+                    onFailedUploadCompanyDocument(result);
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    });
+
+    function onSuccessUploadCompanyDocument(data) {
+        var url = "/CompanyProfile/CompanyDocuments";
+        var jsonData = {
+            CompanyProfileId: data
+        };
+        debugger
+        $("#CompanyDocumentList").load(url, jsonData, function (response, status, xhr) {
+            $("#loader").hide();
+        });
+
+    };
+
+    function onFailedUploadCompanyDocument(data) {
+
+    };
+
+
+    function DownloadCompanyDocument(documentId) {
+        var jsonData = {
+
+            DocumentId: documentId,
+            CompanyProfileId: $("#CompanyProfileIdForUploadCompanyDocument").val()
+        };
+
+        $.post("/CompanyProfile/DownloadDocument",
+
+            jsonData
+            ,
+            function (data, status) {
+                download(data);
+            });
+
+    }
+
+    function DeleteCompanyDocument(documentId) {
+        var url = "/CompanyProfile/DeleteCompanyDocument";
+        var jsonData = {
+
+            DocumentId: documentId,
+            CompanyProfileId: $("#CompanyProfileIdForUploadCompanyDocument").val()
+        };
+
+        $("#CompanyDocumentList").load(url, jsonData, function (response, status, xhr) {
+            $("#loader").hide();
+        });
+
+
+    }
+
+
+    var download = function (downloadURL) {
+
+        location = downloadURL;
+
+    };
+
+//correct usage
+
+
+</script>

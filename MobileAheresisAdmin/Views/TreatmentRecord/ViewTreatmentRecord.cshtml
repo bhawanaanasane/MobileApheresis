@@ -1,0 +1,2020 @@
+﻿@model CRM.Core.ViewModels.TreatmentRecord.AllTreatmentRecordDataVM
+@{
+    ViewData["Title"] = "ViewTreatmentRecord";
+}
+
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script src="~/assets/js/jquery.unobtrusive-ajax.js"></script>
+<form asp-controller="TreatmentRecord" asp-action="Edit" method="post">
+    @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+    {
+        // Bootstrap 2 = "alert-error", Bootstrap 3 and 4 = "alert-danger"
+        <div asp-validation-summary="All" class="alert alert-danger alert-error">
+            <a class="close" data-dismiss="alert">&times;</a>
+        </div>
+    }
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="~/Home/Index">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active"><a href="~/TreatmentRecord/List">Treatment Record List</a></li>
+                <li class="breadcrumb-item active">View Treatment Record</li>
+
+            </ol>
+        </div>
+
+    </div>
+
+    <div class="container-fluid my-3">
+        <div class="col-md-12 pl-0">
+            <div class="card no-b">
+
+
+                <div class="row">
+                    <div class="col-3">
+                        <div class="nav flex-column nav-pills" id="v-pills-tab22" role="tablist" aria-orientation="vertical">
+
+                            <a class="nav-link active show r-20" id="w3--tab1" data-toggle="pill" href="#w3-tab1" role="tab" aria-controls="tab1" aria-expanded="true" aria-selected="true">Patient Info</a>
+
+                            <a class="nav-link r-20 " id="w3--tab2" data-toggle="pill" href="#w3-tab2" role="tab" aria-controls="tab2" aria-selected="false">Doctor/Education</a>
+
+                            <a class="nav-link r-20 " id="w3--tab3" data-toggle="pill" href="#w3-tab3" role="tab" aria-controls="tab3" aria-selected="false">Machine Info</a>
+
+                            <a class="nav-link r-20" id="w3--tab4" data-toggle="pill" href="#w3-tab4" role="tab" aria-controls="tab4" aria-selected="false">Pre Treatment Checks</a>
+
+                            <a class="nav-link r-20" id="w3--tab5" data-toggle="pill" href="#w3-tab5" role="tab" aria-controls="tab5" aria-selected="false">Lab Values</a>
+
+                            <a class="nav-link r-20 " id="w3--tab6" data-toggle="pill" href="#w3-tab6" role="tab" aria-controls="tab6" aria-expanded="false">Supplies/Access</a>
+
+                            <a class="nav-link r-20" id="w3--tab7" data-toggle="pill" href="#w3-tab7" role="tab" aria-controls="tab7" aria-selected="false">Pre Treatment Assessment</a>
+
+                            <a class="nav-link r-20  " id="w3--tab8" data-toggle="pill" href="#w3-tab8" role="tab" aria-controls="tab8" aria-selected="false">Run Values</a>
+
+                            <a class="nav-link r-20" id="w3--tab9" data-toggle="pill" href="#w3-tab9" role="tab" aria-controls="tab9" aria-selected="false">Final Values/Access Post Treatment</a>
+
+                            <a class="nav-link r-20" id="w3--tab10" data-toggle="pill" href="#w3-tab10" role="tab" aria-controls="tab10" aria-expanded="false">Medication/Post Treatment</a>
+
+                            <a class="nav-link r-20 " id="w3--tab11" data-toggle="pill" href="#w3-tab11" role="tab" aria-controls="tab11" aria-selected="false">Note/Report</a>
+
+
+
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="col-9">
+                        <div class="tab-content" id="v-pills-tabContent3">
+                            @* Patient info *@
+                            <div class="tab-pane fade show active" id="w3-tab1" role="tabpanel" aria-labelledby="w3-tab1">
+
+
+
+                                <div class="card bg-white mb-3 font-weight-bold">
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">Patient Name</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PatientVM.PatientName" class="form-control s-12" type="text"readonly>
+                                                            <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.FirstName" data-valmsg-replace="true" ></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">MR</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PatientVM.MR" class="form-control s-12" type="text" readonly>
+                                                            <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.FirstName" data-valmsg-replace="true"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">Diagnosis</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PatientVM.DiagnosisId" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">Nurse</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PatientVM.NurseMasterId" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">Date</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PatientVM.Date" type="text" id="datetime" value="@Model.PatientVM.Date.ToString("MM/dd/yyyy")" class="date-time-picker form-control s-12"
+                                                                   data-options='{"timepicker":false, "format":"m/d/Y"}' required autocomplete="off" readonly>
+
+                                                            <span class="input-group-append">
+                                                                <span class="input-group-text add-on white">
+                                                                    <i class="icon-calendar"></i>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">Hospital</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PatientVM.HospitalName" class="form-control s-12" type="text" readonly>
+                                                            <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.FirstName" data-valmsg-replace="true"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">Procedure</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PatientVM.ProcedureId" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            @* Doctor info *@
+
+                            <div class="tab-pane fade" id="w3-tab2" role="tabpanel" aria-labelledby="w3-tab2">
+                                <div class="card bg-white mb-3 font-weight-bold">
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <div class="row">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">Doctor's Name</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="DoctorsInfo.DoctorName" class="form-control s-12" type="text" readonly>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row  mt-1">
+
+
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-darkenGray">Room#</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="DoctorsInfo.Room" class="form-control s-12" type="text" readonly>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row  mt-1">
+
+
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-darkenGray">Education Pre-Treatment Topic</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="DoctorsInfo.EducatioPreTreatment" class="form-control s-12" type="text" readonly>
+
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                                <div class="col-md-5">
+                                                   
+                                                        <div class="row  mt-1">
+                                                            <div class="col-md-4 text-right">
+
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                                    <input type="checkbox" asp-for="DoctorsInfo.OrdersReviewed" class="custom-control-input" disabled>
+                                                                    <label class="custom-control-label text-darkenGray" asp-for="DoctorsInfo.OrdersReviewed"></label>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="row  mt-1">
+                                                            <div class="col-md-4 text-right">
+
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                                    <input type="checkbox" asp-for="DoctorsInfo.OutPatient" class="custom-control-input" disabled>
+                                                                    <label class="custom-control-label text-darkenGray" asp-for="DoctorsInfo.OutPatient"></label>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 </div>
+
+                                        </div>
+                                            
+                                             
+                                        
+                                     </div>   
+                               
+                                 </div>
+                             </div>
+                           
+                            @* MAchine info *@
+
+                            <div class="tab-pane fade" id="w3-tab3" role="tabpanel" aria-labelledby="w3-tab3">
+                                <div class="card bg-white mb-3 font-weight-bold">
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">PM Date</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+
+                                                        <div class="input-group">
+                                                            <input asp-for="MachineMaster.PMDate" type="text" id="datetime" value="@Model.MachineMaster.PMDate.ToString("MM/dd/yyyy")" class="date-time-picker form-control s-12"
+                                                                   data-options='{"timepicker":false, "format":"m/d/Y"}' required autocomplete="off" readonly>
+
+                                                            <span class="input-group-append">
+                                                                <span class="input-group-text add-on white">
+                                                                    <i class="icon-calendar"></i>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">Expiration Date</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+
+                                                        <div class="input-group">
+                                                            <input asp-for="MachineMaster.ExpDate" type="text" id="datetime" value="@Model.MachineMaster.ExpDate.ToString("MM/dd/yyyy")" class="date-time-picker form-control s-12"
+                                                                   data-options='{"timepicker":false, "format":"m/d/Y"}' required autocomplete="off" readonly>
+
+                                                            <span class="input-group-append">
+                                                                <span class="input-group-text add-on white">
+                                                                    <i class="icon-calendar"></i>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">Electrical Safety Check Date</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+
+                                                        <div class="input-group">
+                                                            <input asp-for="MachineMaster.SafetyChkDate" type="text" id="datetime" value="@Model.MachineMaster.SafetyChkDate.ToString("MM/dd/yyyy")" class="date-time-picker form-control s-12"
+                                                                   data-options='{"timepicker":false, "format":"m/d/Y"}' required autocomplete="off" readonly>
+
+                                                            <span class="input-group-append">
+                                                                <span class="input-group-text add-on white">
+                                                                    <i class="icon-calendar"></i>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Machine</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="MachineMaster.EquipmentName" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">Machine Serial No.</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="MachineMaster.EquipSerial" class="form-control s-12" type="text" disabled>
+                                                            <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.FirstName" data-valmsg-replace="true"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray">Kit Type</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="MachineMaster.KitTypeId" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray"> Serial </label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="MachineMaster.KitTypeSerial" class="form-control s-12 " type="password" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray"> Corrective Action</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <textarea asp-for="MachineMaster.CorrectiveAction" class="form-control s-12" type="text" readonly></textarea>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray"> Comment</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <textarea asp-for="FinalValuesVM.Comments" class="form-control s-12" type="text" readonly></textarea>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                             
+
+
+                                      
+                                            <div class="col-md-6 mt-2">
+                                                <div class="row  mt-1">
+                                                    <div class="col-md-5 text-right">
+
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                            <input type="checkbox" asp-for="MachineMaster.MachineClean" class="custom-control-input" disabled>
+                                                            <label class="custom-control-label text-darkenGray" asp-for="MachineMaster.MachineClean"></label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row  mt-1">
+                                                    <div class="col-md-5 text-right">
+
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                            <input type="checkbox" asp-for="MachineMaster.PrimeSuccess" class="custom-control-input" disabled>
+                                                            <label class="custom-control-label text-darkenGray" asp-for="MachineMaster.PrimeSuccess"></label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row  mt-1">
+                                                    <div class="col-md-5 text-right">
+
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                            <input type="checkbox" asp-for="MachineMaster.CleanedTrackDoors" class="custom-control-input" disabled>
+                                                            <label class="custom-control-label text-darkenGray" asp-for="MachineMaster.CleanedTrackDoors"></label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row  mt-1">
+                                                    <div class="col-md-5 text-right">
+
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                            <input type="checkbox" asp-for="MachineMaster.CleanedSensors" class="custom-control-input" disabled>
+                                                            <label class="custom-control-label text-darkenGray" asp-for="MachineMaster.CleanedSensors"></label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row  mt-1">
+                                                    <div class="col-md-5 text-right">
+
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                            <input type="checkbox" asp-for="MachineMaster.CleanedFrontDoorSensors" class="custom-control-input" disabled>
+                                                            <label class="custom-control-label text-darkenGray" asp-for="MachineMaster.CleanedFrontDoorSensors"></label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row  mt-1">
+                                                    <div class="col-md-5 text-right">
+
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                            <input type="checkbox" asp-for="MachineMaster.CleanedPressurePODSSeals" class="custom-control-input" disabled>
+                                                            <label class="custom-control-label text-darkenGray" asp-for="MachineMaster.CleanedPressurePODSSeals"></label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row  mt-1">
+                                                    <div class="col-md-5 text-right">
+
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                            <input type="checkbox" asp-for="MachineMaster.AlarmCheck" class="custom-control-input" disabled>
+                                                            <label class="custom-control-label text-darkenGray" asp-for="MachineMaster.AlarmCheck"></label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            </div>
+
+
+                                          
+
+
+
+
+                                         </div>
+                                    </div>
+
+                                 </div>
+                            </div>
+                        
+                            
+
+
+
+
+                                <!--16/09/19 aakansha-->
+                            @* Pre TReatment Checks *@
+                                <div class="tab-pane fade" id="w3-tab4" role="tabpanel" aria-labelledby="w3-tab4">
+                                    <div class="card bg-white mb-3 font-weight-bold">
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-4 text-right text-darkenGray">
+                                                            <label class="text-right">Machine Prime</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="input-group">
+                                                                <input asp-for="PreTreatmentCheck.MachinePrimeId" class="form-control s-12" type="text" readonly>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-md-4 text-right text-darkenGray">
+                                                         
+                                                        </div>
+
+                                                        <div class="col-md-7">
+                                                            <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                                <input type="checkbox" asp-for="PreTreatmentCheck.InformedConsent" class="custom-control-input" disabled>
+                                                                <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentCheck.InformedConsent"> </label>
+
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                <div class="col-md-6 mt-2">
+                                                    <div class="row ">
+                                                        <div class="col-md-4 text-right text-darkenGray">
+                                                            
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                                <input type="checkbox" asp-for="PreTreatmentCheck.BloodConsent" class="custom-control-input" disabled>
+                                                                <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentCheck.BloodConsent"> </label>
+
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-4 text-right text-darkenGray">
+                                                            
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                                <input type="checkbox" asp-for="PreTreatmentCheck.UniversalPrecautions" class="custom-control-input" disabled>
+                                                                <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentCheck.UniversalPrecautions"> </label>
+
+
+
+                                                            </div>
+
+                                                        </div>
+                                                        
+
+
+
+
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            @* LAb Values *@
+                                <div class="tab-pane fade" id="w3-tab5" role="tabpanel" aria-labelledby="w3-tab5">
+
+                                    <div class="card bg-white mb-3 font-weight-bold">
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-6 text-right text-darkenGray">
+                                                            <label class="text-right">Height</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <input asp-for="LabValues.Height" class="form-control s-12" type="text" readonly>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-6 text-right text-darkenGray">
+                                                            <label>weight</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <input asp-for="LabValues.Weight" class="form-control s-12 " type="text" readonly>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-6 text-right text-darkenGray">
+                                                            <label>EBV</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <input asp-for="LabValues.EBV" class="form-control s-12 " type="text"readonly>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-6 text-right text-darkenGray">
+                                                            <label>EPV</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <input asp-for="LabValues.EPV" class="form-control s-12 " type="password" readonly>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-6 text-right text-darkenGray">
+                                                            <label>10% ECV</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <input asp-for="LabValues.ECV10" class="form-control s-12 " type="text" readonly>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="col-md-6 mt-2 ">
+                                                    <div class="row">
+
+                                                        <div class="col-md-6 text-right text-darkenGray">
+                                                            <label class="text-right">15%ECV</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <input asp-for="LabValues.ECV15" class="form-control s-12" type="text"readonly>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row mt-1">
+
+                                                        <div class="col-md-6 text-right text-darkenGray">
+                                                            <label>HGB</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <input asp-for="LabValues.HGB" class="form-control s-12 " type="text"readonly>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+
+                                                    <div class="row  mt-1">
+
+                                                        <div class="col-md-6 text-right text-darkenGray">
+                                                            <label>HTC</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <input asp-for="LabValues.HTC" class="form-control s-12 " type="text" readonly>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="row  mt-1">
+
+                                                        <div class="col-md-6 text-right text-darkenGray">
+                                                            <label>WBC</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <input asp-for="LabValues.WBC" class="form-control s-12 " type="text" readonly>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="row  mt-1">
+
+                                                        <div class="col-md-6 text-right text-darkenGray">
+                                                            <label>PLT</label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="input-group">
+                                                                <input asp-for="LabValues.PLT" class="form-control s-12 " type="text" readonly>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="row ml-5">
+                                            <div class="col-md-10 mr-4">
+                                                <div class="row ml-5">
+
+                                                    <table id="ReportTable" class="table table-sm table-light  table-bordered  table-condensed table-hover dataTables_paginate  ">
+
+                                                        <thead class="bg-light text-darkenGray">
+                                                            <tr>
+
+
+
+                                                                <th class="text-left" width="10%">Title</th>
+                                                                <th class="text-left" width="10%">Value</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @{ if (Model.OtherLabValuesVMs.Count() != 0)
+                                                                {
+                                                                    @foreach (var item in Model.OtherLabValuesVMs)
+                                                                    {
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.DisplayFor(modelItem => item.ContentName)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(modelItem => item.ContentValue)
+                                                                            </td>
+
+                                                                        </tr>
+
+
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr class="text-center">
+                                                                        <td colspan="8">No data available</td>
+                                                                    </tr>
+                                                                }
+                                                            }
+
+
+
+                                                        </tbody>
+                                                    </table>
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @* Supplies Access *@
+                           
+                        <div class="tab-pane fade" id="w3-tab6" role="tabpanel" aria-labelledby="w3-tab6">
+                            <div class="card bg-white mb-3 font-weight-bold">
+
+                                <div class="card-body col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card-title ">
+                                                <lable>Supplies Access</lable>
+                                                <div class="row">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">ACD LOT</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="SuppliesVM.ACDLot" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Rate</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="SuppliesVM.Rate" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Prime Lot</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="SuppliesVM.NSPrimeLot" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Temp</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="SuppliesVM.TEMP" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Serial</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="SuppliesVM.Serial" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-2">
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right">
+                                                    <label class="text-right text-darkenGray">Exp Date</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="SuppliesVM.ACDLotExpDate" type="text" id="datetime" value="@Model.SuppliesVM.ACDLotExpDate.ToString("MM/dd/yyyy")" class="date-time-picker form-control s-12"
+                                                               data-options='{"timepicker":false, "format":"m/d/Y"}' required autocomplete="off" readonly>
+
+                                                        <span class="input-group-append">
+                                                            <span class="input-group-text add-on white">
+                                                                <i class="icon-calendar"></i>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right">
+                                                    <label class="text-right text-darkenGray"> Prime Lot Exp Date</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="SuppliesVM.NSPrimeLotExpDate" type="text" id="datetime" value="@Model.SuppliesVM.NSPrimeLotExpDate.ToString("MM/dd/yyyy")" class="date-time-picker form-control s-12"
+                                                               data-options='{"timepicker":false, "format":"m/d/Y"}' required autocomplete="off" readonly>
+
+                                                        <span class="input-group-append">
+                                                            <span class="input-group-text add-on white">
+                                                                <i class="icon-calendar"></i>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row  mt-1">
+                                                <div class="col-md-5 text-right">
+                                                    <label class="text-right text-darkenGray">Last Dose</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="SuppliesVM.LastDoseDate" type="text" id="datetime" value="@Model.SuppliesVM.LastDoseDate.ToString("MM/dd/yyyy")" class="date-time-picker form-control s-12"
+                                                               data-options='{"timepicker":false, "format":"m/d/Y"}' required autocomplete="off" readonly>
+
+                                                        <span class="input-group-append">
+                                                            <span class="input-group-text add-on white">
+                                                                <i class="icon-calendar"></i>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row  mt-1">
+                                                <div class="col-md-5 text-right">
+                                                    <label class="text-right text-darkenGray">Date D/C</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="SuppliesVM.DateDC" type="text" id="datetime" value="@Model.SuppliesVM.DateDC.ToString("MM/dd/yyyy")" class="date-time-picker form-control s-12"
+                                                               data-options='{"timepicker":false, "format":"m/d/Y"}' required autocomplete="off" readonly>
+
+                                                        <span class="input-group-append">
+                                                            <span class="input-group-text add-on white">
+                                                                <i class="icon-calendar"></i>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+
+
+                                            <div class="row mt-2">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                   
+                                                </div>
+
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="SuppliesVM.BloodWarmer" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="SuppliesVM.BloodWarmer">Fluid Warmer</label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                    <input type="checkbox" asp-for="SuppliesVM.ACEInhibitors" class="custom-control-input" disabled>
+                                                    <label class="custom-control-label text-darkenGray" asp-for="SuppliesVM.ACEInhibitors">ACEInhibitors</label>
+
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    
+                                                </div>
+
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="SuppliesVM.MedsReviewed" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="SuppliesVM.MedsReviewed"> MedsReviewed</label>
+
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                           
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="card-body col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card-title ">
+                                                <lable>Access</lable>
+                                                <div class="row">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Location</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="SuppliesVM.Locations" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Comment</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="SuppliesVM.Comments" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-1">
+                                           
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <label class="text-right">Type</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="SuppliesVM.CVC" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="SuppliesVM.CVC">CVC</label>
+
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="SuppliesVM.Peripheral" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="SuppliesVM.Peripheral">Peripheral</label>
+
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="SuppliesVM.Vortex" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="SuppliesVM.Vortex">Vortex</label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+
+
+
+
+
+
+                                         </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                
+                            </div>
+
+
+                        </div>
+                            @* Pre Treatment Access *@
+                        <div class="tab-pane fade" id="w3-tab7" role="tabpanel" aria-labelledby="w3-tab7">
+                            <div class="card bg-white mb-3 font-weight-bold">
+
+                                <div class="card-body col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card-title ">
+                                                <lable>Neuro</lable>
+                                                <div class="row">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">OrientedX</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PreTreatmentAssessment.OrientedX" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Pain</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PreTreatmentAssessment.PainAutoTextName" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Location</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PreTreatmentAssessment.LocationAutoTextName" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-2 ">
+                                            <div class="row mt-2">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsWeakness" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsWeakness">Weakness</label>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="PreTreatmentAssessment.WaeknessAutoTextName" class="form-control s-12" type="text" readonly>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsNumbness" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsNumbness">Numbness</label>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="PreTreatmentAssessment.NumbnessAutoTexName" class="form-control s-12" type="text" readonly>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+
+                                                </div>
+
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsAlert" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsAlert"> Alert</label>
+
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+
+                                                </div>
+
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsLethargic" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsLethargic">Lethargic </label>
+
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+
+                                                </div>
+
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsComatose" class="custom-control-input"disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsComatose">Comatose </label>
+
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="card-body col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card-title ">
+                                                <lable>Cardiac</lable>
+                                                <div class="row">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Rhytmn</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PreTreatmentAssessment.RythmAutoTextName" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Skin</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PreTreatmentAssessment.SkinAutoTextName" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-1">
+                                            <div class="row ">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsBleeding" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsBleeding">Bleeding </label>
+
+
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="PreTreatmentAssessment.BleendAutoTextName" class="form-control s-12" type="text" readonly>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsEdema" class="custom-control-input"disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsEdema"> Edema</label>
+
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7">
+
+                                                    <div class="input-group">
+                                                        <input asp-for="PreTreatmentAssessment.EdemaAutoTextName" class="form-control s-12" type="text" readonly>
+
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+
+
+
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="card-body col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card-title ">
+                                                <lable>Respiratory</lable>
+                                                <div class="row">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">O2 Sat</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PreTreatmentAssessment.OSat" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Lung Sound</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="PreTreatmentAssessment.LungSoundsAutoTextName" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Quality</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                            <input type="checkbox" asp-for="PreTreatmentAssessment.IsEasy" class="custom-control-input" disabled>
+                                                            <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsEasy">Easy</label>
+
+                                                        </div>
+                                                        <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                            <input type="checkbox" asp-for="PreTreatmentAssessment.IsLabored" class="custom-control-input" disabled>
+                                                            <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsLabored">Laboured</label>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-1">
+                                            <div class="row ">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <label>Oxygen</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsNC" class="custom-control-input"disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsNC">NC </label>
+
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsRoomAir" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsRoomAir">Room Air </label>
+
+
+
+                                                    </div>
+
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsVent" class="custom-control-input"disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsVent"> Vent</label>
+
+
+
+                                                    </div>
+
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsMask" class="custom-control-input"disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsMask">Mask </label>
+
+
+
+                                                    </div>
+
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+
+
+
+
+
+
+
+
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="PreTreatmentAssessment.IsFiO2" class="custom-control-input"disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="PreTreatmentAssessment.IsFiO2">FiO2 </label>
+
+
+
+                                                    </div>
+
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+
+                            </div>
+                         
+                         </div>
+                            
+                            
+                          
+                                @* Run Value *@
+                                <div class="tab-pane fade" id="w3-tab8" role="tabpanel" aria-labelledby="w3-tab8">
+                                    <div class="card bg-white mb-3 font-weight-bold">
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-10 center">
+
+                                                    <table id="ReportTable" class="table table-sm table-light  table-bordered  table-condensed table-hover dataTables_paginate  " onclick="showloaderfn()">
+                                                        <thead class="bg-light text-darkenGray">
+
+                                                            <tr>
+
+                                                                <th class="text-left" width="10%">Run Time</th>
+                                                                <th class="text-left" width="10%">A/C Flow Rate</th>
+                                                                <th class="text-left" width="10%">A/C Flow Vol</th>
+                                                                <th class="text-left" width="10%">Plasma Rate</th>
+                                                                <th class="text-left" width="10%"> Plasma Vol</th>
+                                                                <th class="text-left" width="10%">Collect Flow Rate </th>
+                                                                <th class="text-left" width="10%"> Collect Flow Vol</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @{ if (Model.RunValuesVM.Count() != 0)
+                                                                {
+
+                                                                @foreach (var item in Model.RunValuesVM)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.RunTime)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.ACFlowRate)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.ACFlowVol)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.PlasmaFlowRate)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.PlasmaFlowVol)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.CollectFlowRate)
+                                                                        </td>
+                                                                        <td>
+                                                                            @Html.DisplayFor(modelItem => item.CollectFlowVol)
+                                                                        </td>
+                                                                    </tr>
+
+
+
+
+
+
+
+                                                                }
+
+                                                                }
+                                                                else
+                                                                {
+                                                                <tr class="text-center">
+                                                                    <td colspan="8">No data available</td>
+                                                                </tr>
+                                                                }
+                                                             }
+
+                                                        </tbody>
+
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                @* Final Values/Access Post Treatment *@
+                        <div class="tab-pane fade" id="w3-tab9" role="tabpanel" aria-labelledby="w3-tab9">
+                            <div class="card bg-white mb-3 font-weight-bold">
+
+                                <div class="card-body col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card-title ">
+                                                <lable>Final Value</lable>
+                                                <div class="row">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Time</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="FinalValuesVM.Time" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">AC</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="FinalValuesVM.AC" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">Inlet</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="FinalValuesVM.Inlet" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-2">
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <label class="text-right">Replaced</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="FinalValuesVM.Reinforced" class="form-control s-12" type="text" readonly>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <label class="text-right">Plasma</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="FinalValuesVM.Plasma" class="form-control s-12" type="text" readonly>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <label class="text-right">Fluid Balance</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="FinalValuesVM.FluidBalance" class="form-control s-12" type="text" readonly>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div class="card-body col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card-title ">
+                                                <lable>End Of Treatment VS</lable>
+                                                <div class="row">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">B</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="FinalValuesVM.BP" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        <label class="text-right">P</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <input asp-for="FinalValuesVM.P" class="form-control s-12" type="text" readonly>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-1">
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <label class="text-right">R</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="FinalValuesVM.R" class="form-control s-12" type="text" readonly>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <label class="text-right">T</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="input-group">
+                                                        <input asp-for="FinalValuesVM.T" class="form-control s-12" type="text" readonly>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="card-body col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="card-title ">
+                                                <lable>Acces Post-Accessment</lable>
+                                                <div class="row mt-1">
+                                                    <div class="col-md-5 text-right">
+                                                        <label class="text-right text-darkenGray"> Comments</label>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="input-group">
+                                                            <textarea asp-for="FinalValuesVM.Comments" class="form-control s-12" type="text" readonly></textarea>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1 ">
+                                                    <div class="col-md-5 text-right text-darkenGray">
+                                                        
+
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                            <input type="checkbox" asp-for="FinalValuesVM.ChlorhexidineCapApplied" class="custom-control-input" disabled>
+                                                            <label class="custom-control-label text-darkenGray" asp-for="FinalValuesVM.ChlorhexidineCapApplied">ChlorhexidineCapApplied </label>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-1">
+                                           
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <label class="text-right">Dressing</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="FinalValuesVM.NewDressing" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="FinalValuesVM.NewDressing">NewDressing</label>
+
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="FinalValuesVM.Reinforced" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="FinalValuesVM.Reinforced">Reinforced</label>
+
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="FinalValuesVM.Intact" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="FinalValuesVM.Intact">Intact</label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                                <div class="col-md-5 text-right text-darkenGray">
+                                                    <label class="text-right">Flush</label>
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="FinalValuesVM.Saline" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="FinalValuesVM.Saline">Saline</label>
+
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                        <input type="checkbox" asp-for="FinalValuesVM.Heparin" class="custom-control-input" disabled>
+                                                        <label class="custom-control-label text-darkenGray" asp-for="FinalValuesVM.Heparin">Heparin</label>
+
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+z
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                                @* Medication/Post Treatment *@
+                                <div class="tab-pane fade" id="w3-tab10" role="tabpanel" aria-labelledby="w3-tab10">
+
+                                    <div class="card bg-white mb-3 font-weight-bold">
+
+                                        <div class="card-body">
+                                            <div class="row">
+
+
+                                                <div class="col-md-6">
+
+                                                    <div class="row  mt-1">
+                                                        <div class="col-md-4 ">
+
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                                <input type="checkbox" asp-for="PostTreatmentVM.IsBiohazardWasteDisposed" class="custom-control-input" disabled>
+                                                                <label class="custom-control-label text-darkenGray" asp-for="PostTreatmentVM.IsBiohazardWasteDisposed"></label>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                <div class="col-md-6 mt-2">
+                                                    <div class="row  mt-1 mr-3">
+                                                        <div class="col-md-5 text-right">
+
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="custom-control custom-checkbox mb-3 ml-1">
+                                                                <input type="checkbox" asp-for="PostTreatmentVM.IsSideRailsUp" class="custom-control-input" disabled>
+                                                                <label class="custom-control-label text-darkenGray" asp-for="PostTreatmentVM.IsSideRailsUp"></label>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-8 center">
+                                            <div class="row ">
+
+                                                <table id="ReportTable" class="table table-sm table-light  table-bordered  table-condensed table-hover dataTables_paginate  ">
+
+                                                    <thead class="bg-light text-darkenGray">
+                                                        <tr>
+
+
+
+                                                            <th class="text-left" width="10%">Name</th>
+                                                            <th class="text-left" width="10%">Dosage</th>
+                                                            <th class="text-left" width="10%">Route</th>
+                                                            <th class="text-left" width="10%">Comment</th>
+
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @{ if (Model.medication.Count() != 0)
+                                                            {
+                                                            @foreach (var item in Model.medication)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.Name)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.Dosage)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.Route)
+                                                                    </td>
+                                                                    <td>
+                                                                        @Html.DisplayFor(modelItem => item.Comments)
+                                                                    </td>
+
+                                                                </tr>
+
+
+                                                            }
+                                                            }
+                                                            else
+                                                            {
+                                                            <tr class="text-center">
+                                                                <td colspan="8">No data available</td>
+                                                            </tr>
+                                                                }
+                                                            }
+
+
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                @* Note nd Report *@
+                                <div class="tab-pane fade" id="w3-tab11" role="tabpanel" aria-labelledby="w3-tab11">
+
+                                    <div class="card bg-white mb-3 font-weight-bold">
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-5 text-right">
+                                                            <label class="text-right text-darkenGray">Report Given Tool</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="input-group">
+                                                                <input asp-for="NoteAndReportVM.ReportGivenTo" class="form-control s-12 " type="password" readonly>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-1">
+                                                        <div class="col-md-5 text-right">
+                                                            <label class="text-right text-darkenGray">Note</label>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <div class="input-group">
+                                                                <textarea asp-for="NoteAndReportVM.Note" class="form-control s-12" type="text" readonly></textarea>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+
+
+
+
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+            
+        
+ </form>

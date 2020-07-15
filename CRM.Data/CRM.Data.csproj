@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190311133158_firstMigration.cs" />
+    <Compile Remove="Migrations\20190316154042_ProductPictureUpdate.cs" />
+    <Compile Remove="Migrations\20190318110224_ShippingRequestChanges.cs" />
+    <Compile Remove="Migrations\20190318112232_ShippingRequestProductChanges.cs" />
+    <Compile Remove="Migrations\20190319074723_picturepath.cs" />
+    <Compile Remove="Migrations\20190319075341_picturebinary.cs" />
+    <Compile Remove="Migrations\20190320081918_shippingRequestProductstatus.cs" />
+    <Compile Remove="Migrations\20190323073827_BinTrackingTableUpdate.cs" />
+    <Compile Remove="Migrations\20190323080630_productBinsTrackingTableUpdate.cs" />
+    <Compile Remove="Migrations\20190323081736_PickUpListProductBinsTableChanges.cs" />
+    <Compile Remove="Migrations\20190414154311_GooglePrintCloudSetting.cs" />
+    <Compile Remove="Migrations\20190414154653_GooglePrintCloudSetting.cs" />
+    <Compile Remove="Migrations\20190508113508_Quotation.cs" />
+    <Compile Remove="Migrations\20190508113508_Quotation.Designer.cs" />
+    <Compile Remove="Migrations\20190525095748_pickupListTableChanges.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CRM.Core\CRM.Core.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<CRM.Core.Domain.Equipments.EquipmentDocuments>
+@* 26/09/19 aakansha *@
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+
+<table id="ReportTable" class="table table-sm table-light  table-bordered table-hover data-tables "
+       data-options='{"searching":false}'>
+    <thead class="bg-light text-black">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EquipmentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Document)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EquipmentId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Document)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+
+                    <a href="~/Equipment/DownloadDocument?EquipmentId=@item.EquipmentId&DocumentId=@item.Id" onclick="showloaderfn()"><i class="icon-download lblue-text ml-2 handCursor"></i></a>
+                    <a onclick="DeleteDocument(@item.Id)"><i class="icon-trash text-red ml-2 handCursor"></i></a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

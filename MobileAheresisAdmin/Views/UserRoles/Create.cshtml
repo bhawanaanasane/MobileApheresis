@@ -1,0 +1,146 @@
+﻿@model MobileAheresisAdmin.Models.UsersRole.CustomerRoleModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+<input asp-for="Id" type="hidden" />
+
+
+<form  asp-controller="UserRoles"  asp-action="Create" method="post">
+    @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+    {
+        // Bootstrap 2 = "alert-error", Bootstrap 3 and 4 = "alert-danger"
+        <div asp-validation-summary="All" class="alert alert-danger alert-error">
+            <a class="close" data-dismiss="alert">&times;</a>
+        </div>
+    }
+
+    <div class="container-fluid ">
+        <div class="col-md-12">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="row">
+
+                        <div class="col-md-6 mt-2">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="~/Home/Index">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active"><a href="~/UserRoles/Index">User Role List</a></li>
+                                <li class="breadcrumb-item active">Add User Role</li>
+
+                            </ol>
+                        </div>
+                        <div class="col-md-6 text-right">
+
+
+
+                            <button type="submit" name="save" class="btn btn-primary btn-sm mt-2">
+                                <i class="icon-save mr-2"></i>
+                                Save
+                            </button>
+
+                            @*<button type="submit" name="save-continue" class="btn btn-primary btn-sm ml-2 ">
+                    <i class="icon-save mr-2"></i>
+                    Save And Countinue
+                </button>*@
+
+
+                        </div>
+                    </div>
+                    <div class="row float-right">
+
+                        <!-- <button type="submit" name="save" class="btn btn-primary btn-sm ">
+             <i class="icon-save mr-2"></i>
+             Save
+         </button>--->
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-12">
+
+                <div class="card bg-white mb-3 font-weight-bold">
+
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+
+                                <label asp-for="Name" class="col-form-label text-darkenGray s-12">Name</label>
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="Name" class="form-control r-0 light s-12 " type="text" required>
+                                    
+                                </div>
+                            </div>
+
+
+                        </div>
+                        
+                        <div class="row mt-1">
+                            <div class="col-md-2 text-right">
+
+                                <label asp-for="Description" class="col-form-label text-darkenGray s-12">Description</label>
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <input asp-for="Description" class="form-control r-0 light s-12 " type="text" required>
+                                    
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row mt-1 t">
+                            <div class="col-md-2 text-right">
+
+                            </div>
+                            <div class="col-md-4 ">
+                                <div class="custom-control custom-checkbox mb-3 ml-1">
+                                    <input type="checkbox" asp-for="Active" class="custom-control-input">
+                                    <label class="custom-control-label text-darkenGray" asp-for="Active">Active</label>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>
+

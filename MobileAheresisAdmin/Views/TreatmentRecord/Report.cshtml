@@ -1,0 +1,632 @@
+﻿@model MobileAheresisAdmin.Models.Treatments.TreatmentsReportListModel
+@{
+    ViewData["Title"] = "Report";
+}
+
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+<form asp-controller="TreatmentRecord" asp-action="Report" method="post">
+
+    <!-- Modal -->
+    <div id="ReportPOPUp" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg modal-info">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h4 class="modal-title"> Treatment Report</h4>
+
+                    <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div>
+                                <div class="row">
+
+                                    <div class="col-md-2">
+                                        <label class="col-form-label text-darkenGray s-12">Report Type</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <select id="Report" asp-for="ReportType" onchange="GetDrropDownByReportType()" class="select2" asp-items="ViewBag.SortByReportDropdown"></select>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="StartDate">
+                                <div class="row mt-1">
+
+                                    <div class="col-md-5">
+                                        <label asp-for="StartDate" class="col-form-label text-darkenGray s-12"> start Date </label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input asp-for="StartDate" type="text" id="Startdatetime" value="@{if (Model.StartDate != null) { Convert.ToDateTime(Model.StartDate).ToString("MM/dd/yyyy");}}" class="date-time-picker form-control s-12"
+                                                   data-options='{"timepicker":false, "format":"m/d/Y"}' autocomplete="off">
+
+                                            <span class="input-group-append">
+                                                <span class="input-group-text add-on white">
+                                                    <i class="icon-calendar"></i>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="EndDate">
+                                <div class="row mt-1">
+
+                                    <div class="col-md-5">
+                                        <label asp-for="EndDate" class="col-form-label text-darkenGray s-12"> End Date </label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input asp-for="EndDate" type="text" id="Enddatetime" value="@{if (Model.EndDate != null) { Convert.ToDateTime(Model.StartDate).ToString("MM/dd/yyyy");}}" class="date-time-picker form-control s-12"
+                                                   data-options='{"timepicker":false, "format":"m/d/Y"}' autocomplete="off">
+
+                                            <span class="input-group-append">
+                                                <span class="input-group-text add-on white">
+                                                    <i class="icon-calendar"></i>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div id="Patient">
+                                <div class="row mt-1">
+
+                                    <div class="col-md-4">
+                                        <label class="col-form-label text-darkenGray s-12"> Patient</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select asp-for="PatientId" class="select2" asp-items="Model.AvailablePatient" hidden> Patient Name</select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Hospital">
+                                <div class="row mt-1">
+
+                                    <div class="col-md-4">
+                                        <label class="col-form-label text-darkenGray s-12">Hospital</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select asp-for="HospitalId" class="select2" asp-items="Model.AvailableHospital" hidden>Hospital</select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Nurse">
+                                <div class="row mt-1">
+
+                                    <div class="col-md-4">
+                                        <label class="col-form-label text-darkenGray s-12">Nurse</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select asp-for="NurseId" class="select2" asp-items="Model.AvailableNurse" hidden>Nurse Name </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Diagnosis">
+                                <div class="row mt-1">
+
+                                    <div class="col-md-4">
+                                        <label class="col-form-label text-darkenGray s-12">Diagnosis</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select asp-for="DiagnosisId" class="select2" asp-items="Model.AvailableDaignosis" hidden>Diagnosis</select>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div id="MR">
+                                    <div class="row mt-1">
+
+                                        <div class="col-md-4">
+                                            <label class="col-form-label text-darkenGray s-12">MR</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select class="select2" name="SortBy" asp-items=" ViewBag.MRDropDown " hidden>MR</select>
+                                        </div>
+                                    </div>
+                                </div>*@
+                            <div id="Procedure">
+                                <div class="row mt-1">
+
+                                    <div class="col-md-4">
+                                        <label class="col-form-label text-darkenGray s-12">Procedure</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select asp-for="ProcedureId" class="select2" asp-items="Model.AvailableProcedure" hidden>Procedure</select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Machine">
+                                <div class="row mt-1">
+
+                                    <div class="col-md-4">
+                                        <label class="col-form-label text-darkenGray s-12">Machine QA</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select id="MachineName" class="select2" asp-items="Model.AvailableNurse" hidden>Machine QA</select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer bg-white">
+                    <button type="submit" name="SubmitButton" value="ExportExcel" class="btn btn-primary bg-unique btn-lg ml-2 ">
+                        <i class="icon-file-excel-o ml-2"></i>
+                    </button>
+                    @*<button type="submit" name="SubmitButton" value="ExportPDF" class="btn btn-primary bg-unique btn-lg ml-2 ">
+                            <i class="icon-document-file-pdf ml-2"></i>
+                        </button>*@
+
+                    <button type="submit" class=" btn btn-lg btn-primary">Submit</button>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card no-b">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-sm-12 text-right mb-1">
+                                <button type="button" class="btn bg-purple btn-sm ml-2 button-clrproperty" data-toggle="modal" data-target="#ReportPOPUp">
+                                    Filter / Export
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid my-3">
+        <div class="col-md-12">
+            <div class="card no-b">
+                <div class="card-header white pb-0">
+                    <div class="d-flex justify-content-between">
+                        <div class="align-self-lg-start mr-4">
+                            <div id="tabs">
+                                <ul class="nav nav-pills mb-3" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show r-20" id="w3--tab1" data-toggle="tab" href="#w3-tab1" role="tab" aria-controls="tab1" aria-expanded="true" aria-selected="true">By Patient</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link r-20 " id="w3--tab2" data-toggle="tab" href="#w3-tab2" role="tab" aria-controls="tab2" aria-selected="false" value="Select">By Hospital</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link r-20 " id="w3--tab3" data-toggle="tab" href="#w3-tab3" role="tab" aria-controls="tab3" aria-selected="false" value="Select">By Nurse</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link r-20  " id="w3--tab4" data-toggle="tab" href="#w3-tab4" role="tab" aria-controls="tab4" aria-selected="false">By Date</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link r-20  " id="w3--tab5" data-toggle="tab" href="#w3-tab5" role="tab" aria-controls="tab5" aria-selected="false">By Diagnosis</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link r-20  " id="w3--tab6" data-toggle="tab" href="#w3-tab6" role="tab" aria-controls="tab6" aria-selected="false">By Procedure</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="card-body no-p">
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active " id="w3-tab1" role="tabpanel" aria-labelledby="w3-tab1">
+
+                            <table id="ReportTable" class="table table-sm table-light table-bordered table-condensed table-hover  mt-1"
+                                   data-options='{"searching":false",scrollY": "50vh","scrollCollapse": true}'>
+                                <thead class="bg-light text-black">
+                                    <tr>
+
+
+
+
+                                        <th class="text-left" width="17%">Date  </th>
+                                        <th class="text-left" width="15%">Hospital</th>
+
+                                        <th class="text-left" width="10%">Procedure</th>
+                                        <th class="text-left" width="10%">Nurse Name</th>
+
+
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.PatientList.Count() != 0)
+                                    {
+                                        @foreach (var item in Model.PatientList)
+                                        {
+                                            <tr>
+
+                                                @Html.HiddenFor(a => a.PatientId)
+
+
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Date)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Hospital)
+
+                                                </td>
+
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.procedure)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.NurseFirstName) (@Html.DisplayFor(modelItem => item.NurseLastName))
+
+                                                </td>
+
+                                            </tr>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <tr class="text-center">
+                                            <td colspan="4"> No Data Available</td>
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+
+                        <div class="tab-pane fade" id="w3-tab2" role="tabpanel" aria-labelledby="w3-tab2">
+
+                            <table id="ReportTable1" class="table table-sm table-light table-bordered table-condensed table-hover  mt-1"
+                                   data-options='{"searching":false",scrollY": "50vh","scrollCollapse": true}'>
+                                <thead class="bg-light text-black">
+                                    <tr>
+
+                                        <th class="text-left" width="17%">Date  </th>
+                                        <th class="text-left" width="15%">Patient Name</th>
+                                        <th class="text-left" width="10%">MR</th>
+                                        <th class="text-left" width="10%">Procedure</th>
+                                        <th class="text-left" width="15%">Diagnosis</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.HospitalList.Count() != 0)
+                                    {
+                                        @foreach (var item in Model.HospitalList)
+                                        {
+                                            <tr>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Date)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.PatientName)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.MR)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.procedure)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Diagnosis)
+
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr class="text-center"><td colspan="5">No Data Available</td></tr>
+                                    }
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="w3-tab3" role="tabpanel" aria-labelledby="w3-tab3">
+
+                            <table id="ReportTable2" class="table table-sm table-light table-bordered table-condensed table-hover  mt-1"
+                                   data-options='{"searching":false",scrollY": "50vh","scrollCollapse": true}'>
+                                <thead class="bg-light text-black">
+                                    <tr>
+
+                                        <th class="text-left" width="17%">Date  </th>
+                                        <th class="text-left" width="15%">Hospital</th>
+                                        <th class="text-left" width="10%">Patient Name</th>
+                                        <th class="text-left" width="10%">MR</th>
+                                        <th class="text-left" width="15%">Procedure</th>
+                                        <th class="text-left" width="15%">Diagnosis</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.NurseList.Count() != 0)
+                                    {
+                                        @foreach (var item in Model.NurseList)
+                                        {
+                                            <tr>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Date)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Hospital)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.PatientName)
+
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.MR)
+
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.procedure)
+
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Diagnosis)
+
+
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr class="text-center"><td colspan="6">No Data Available</td></tr>
+                                    }
+                                </tbody>
+
+                            </table>
+
+
+                        </div>
+
+
+                        <div class="tab-pane fade" id="w3-tab4" role="tabpanel" aria-labelledby="w3-tab4">
+
+                            <table id="ReportTable3" class="table table-sm table-light table-bordered table-condensed table-hover  mt-1"
+                                   data-options='{"searching":false",scrollY": "50vh","scrollCollapse": true}'>
+                                <thead class="bg-light text-black">
+                                    <tr>
+
+
+                                        <th class="text-left" width="17%">Date  </th>
+                                        <th class="text-left" width="15%">Hospital</th>
+                                        <th class="text-left" width="10%">Patient Name</th>
+                                        <th class="text-left" width="10%">MR</th>
+                                        <th class="text-left" width="15%">Procedure</th>
+                                        <th class="text-left" width="15%">Diagnosis</th>
+
+                                        <th class="sorting_asc_disabled sorting_desc_disabled" width="2%"></th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.DateList.Count() != 0)
+                                    {
+                                        @foreach (var item in Model.DateList)
+                                        {
+                                            <tr>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Date)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Hospital)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.PatientName)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.MR)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.procedure)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Diagnosis)
+
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr class="text-center"><td colspan="6">No Data Available</td></tr>
+                                    }
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="w3-tab5" role="tabpanel" aria-labelledby="w3-tab5">
+
+                            <table id="ReportTable4" class="table table-sm table-light table-bordered table-condensed table-hover  mt-1"
+                                   data-options='{"searching":false",scrollY": "50vh","scrollCollapse": true}'>
+                                <thead class="bg-light text-black">
+                                    <tr>
+
+
+
+                                        <th class="text-left" width="17%">Date  </th>
+                                        <th class="text-left" width="15%">Hospital</th>
+                                        <th class="text-left" width="10%">Patient Name</th>
+                                        <th class="text-left" width="10%">MR</th>
+                                        <th class="text-left" width="15%">Procedure </th>
+
+                                        <th class="sorting_asc_disabled sorting_desc_disabled" width="2%"></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.DiagnosisList.Count() != 0)
+                                    {
+                                        @foreach (var item in Model.DiagnosisList)
+                                        {
+                                            <tr>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Date)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Hospital)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.PatientName)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.MR)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.procedure)
+
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr class="text-center"><td colspan="6"> No Data Available</td></tr>
+}
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="w3-tab6" role="tabpanel" aria-labelledby="w3-tab6">
+
+                            <table id="ReportTable5" class="table table-sm table-light table-bordered table-condensed table-hover  mt-1"
+                                   data-options='{"searching":false",scrollY": "50vh","scrollCollapse": true}'>
+                                <thead class="bg-light text-black">
+                                    <tr>
+
+
+
+                                        <th class="text-left" width="17%">Date  </th>
+                                        <th class="text-left" width="15%">Hospital</th>
+                                        <th class="text-left" width="10%">Patient Name</th>
+                                        <th class="text-left" width="10%">MR</th>
+                                        <th class="text-left" width="15%">Diagnosis </th>
+
+                                        <th class="sorting_asc_disabled sorting_desc_disabled" width="2%"></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.ProcedureList.Count() != 0)
+                                    {
+                                        @foreach (var item in Model.ProcedureList)
+                                        {
+                                            <tr>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Date)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Hospital)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.PatientName)
+
+                                                </td>
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.MR)
+
+                                                </td>
+
+                                                <td class="s-12">
+                                                    @Html.DisplayFor(modelItem => item.Diagnosis)
+
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr class="text-center">
+                                    <td colspan="5">No data available</td></tr>
+                                }
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="~/assets/CustomJs/Report.js"></script>
+

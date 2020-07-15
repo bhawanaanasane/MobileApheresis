@@ -1,0 +1,338 @@
+﻿@model MobileAheresisAdmin.Models.Equipments.EquipmentModel
+@using CRM.Core.Domain.Equipments
+@using MobileAheresisAdmin.Utils
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+<script src="~/assets/js/jquery.unobtrusive-ajax.js"></script>
+<div class="row">
+
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/Home/Index">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active"><a href="~/Equipment/Index">Equipment List</a></li>
+            <li class="breadcrumb-item active">Add New Equipment </li>
+
+        </ol>
+    </div>
+
+</div>
+
+
+
+<div class="container-fluid my-3">
+    <div class="col-md-12">
+        <div class="card no-b">
+            <div class="card-header white ">
+                <div class="d-flex justify-content-between">
+                    <div class="align-self-center">
+                        <ul class="nav nav-pills mb-3" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active show r-20" id="w3--tab1" data-toggle="tab" href="#w3-tab1" role="tab" aria-controls="tab1" aria-expanded="true" aria-selected="true">General</a>
+                            </li>
+                            @if (Model.Id != 0)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link r-20 " id="w3--tab3" data-toggle="tab" href="#w3-tab3" role="tab" aria-controls="tab3" aria-selected="false">Documents</a>
+                                </li>
+                            }
+                            else
+                            {
+                        <li class="nav-item">
+                            <a class="nav-link r-20  disabled" id="w3--tab3" data-toggle="tab" href="#w3-tab3" role="tab" aria-controls="tab3" aria-selected="false">Documents</a>
+                        </li>
+                            }
+
+
+                        </ul>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="card-body no-p">
+                <div class="tab-content">
+
+                    <div class="tab-pane fade show active" id="w3-tab1" role="tabpanel" aria-labelledby="w3-tab1">
+
+                        <form asp-action="CreateEquipment" method="post" data-ajax-failure="onFailedCreateEquipment" data-ajax-success="onSuccessCreateEquipment"
+                              data-ajax="true" data-ajax-method="POST"  >
+                            @Html.HiddenFor(a => a.Id)
+
+
+                            <div class="row mt-1">
+                                <div class="col-md-12">
+
+                                    <div class="card bg-white mb-3 font-weight-bold ">
+
+                                        <div class="card-body s-12">
+
+
+                                            <div class="row">
+                                                <div class="col-md-2 text-right">
+                                                    <label class="text-right text-darkenGray">Machine Name</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input asp-for="MachineName" class="form-control s-12" type="text">
+                   
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1 text-right">
+                                                    <label class="text-right text-darkenGray">Serial#</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input asp-for="SerialNo" class="form-control s-12" type="text">
+                              
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        @* 10/10/2019 aakansha *@
+                                        @* Submit Button in Card Footer *@
+                                        <div class="card-footer white border-0">
+                                            <div class="col-md-12 text-right ">
+                                                <div class="col-md-12 row">
+                                                    <div class="col-md-7"></div>
+                                                    <div class="col-md-5 pr-5">
+                                                        <button type="submit" name="save-continue" id="GenerealSubmitbtn" onclick="showloaderfn()" class="btn btn-primary btn-sm ml-2 ">
+                                                            <i class="icon-save mr-2"></i>
+                                                            Submit
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+                            </div>
+                            </div>
+                           
+
+
+                        </form>
+                    </div>
+
+
+
+                    <div class="tab-pane fade" id="w3-tab3" role="tabpanel" aria-labelledby="w3-tab3">
+                        <form method="post" enctype="multipart/form-data" asp-controller="Nurse" asp-action="UploadDocument">
+
+
+                            <div class="row mt-1">
+                                <div class="col-md-12">
+
+                                    <div class="card bg-white mb-3 font-weight-bold border-0">
+
+                                        <div class="card-body s-12">
+                                            <input id="EquipmentIdForUploadDocument" name="EquipmentId" value="@Model.Id" hidden />
+                                            <div class="row">
+                                                <div class="col-md-3 text-right">
+                                                    <label class="text-darkenGray">Document Type</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <div class="input-group">
+                                                        <select class="select2" asp-for="EqpDocumentId" asp-items="@(((EqpDocumentType)Model.EqpDocumentId).ToSelectList())"></select>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-1 ">
+                                                <div class="col-md-3 text-right">
+                                                    <label class="text-darkenGray">Select File</label>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="file" id="documentFile" name="documentFile" />
+                                                </div>
+
+                                            </div>
+                                           
+                                            <div class="row mt-1 border-top-1">
+                                                <div class="col-md-12 text-right">
+                                                    <button id="btnUpload" type="button" onclick="showloaderfn()" class="btn btn-primary btn-sm mt-1">
+
+                                                        <i class="icon-save mr-2"></i>
+                                                        Submit
+                                                    </button>
+                                                    
+                                                </div>
+                                           
+                                            </div>
+                                            <div class="row mt-1 border-top-1">
+                                                <div class="col-md-12 p-0">
+                                                    <div id="DocumentList">
+                                                        @Html.Partial("_EquipmentDocuments", Model.EquipmentDocuments)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function onSuccessCreateEquipment(data) {
+         //Hide Loader after success
+        hideloaderfn();
+        $("#Id").val(data);
+        $("#EquipmentIdForUploadDocument").val(data);
+        //Remove disable class of document tab
+        $("#w3--tab3").removeClass("disabled");
+         //disable submit button
+        $("#GenerealSubmitbtn").prop("disable", true);
+        //remove onclick event of submit button
+        $("#GenerealSubmitbtn").prop("onclick", null).off("click");
+      
+    };
+
+    function onFailedCreateEquipment(data) {
+
+    };
+
+   
+
+    $('#btnUpload').click(function () {
+        debugger
+        // Checking whether FormData is available in browser
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#documentFile").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object
+            fileData.append('Document', $("#Document").val());
+            fileData.append('EquipmentId', $("#EquipmentIdForUploadDocument").val());
+            fileData.append('EqpDocumentId', $("#EqpDocumentId").val());
+
+            $.ajax({
+                url: '/Equipment/UploadDocument',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    onSuccessUploadDocument(result);
+                },
+                error: function (err) {
+                    onFailedUploadDocument(result);
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    });
+
+    function onSuccessUploadDocument(data) {
+        var url = "/Equipment/EquipmentDocuments";
+        var jsonData = {
+            EquipmentId: data
+        };
+        debugger
+        $("#DocumentList").load(url, jsonData, function (response, status, xhr) {
+            $("#loader").hide();
+        });
+
+    };
+
+    function onFailedUploadDocument(data) {
+
+    };
+
+
+    function DownloadDocument(documentId) {
+        var jsonData = {
+
+            DocumentId: documentId,
+            EquipmentId: $("#EquipmentIdForUploadDocument").val()
+        };
+
+        $.post("/Equipment/DownloadDocument",
+
+            jsonData
+            ,
+            function (data, status) {
+                download(data);
+            });
+
+    }
+
+    function DeleteDocument(documentId) {
+        var url = "/Equipment/DeleteDocument";
+        var jsonData = {
+
+            DocumentId: documentId,
+            EquipmentId: $("#EquipmentIdForUploadDocument").val()
+        };
+
+        $("#DocumentList").load(url, jsonData, function (response, status, xhr) {
+            $("#loader").hide();
+        });
+
+
+    }
+
+
+    var download = function (downloadURL) {
+
+        location = downloadURL;
+
+    };
+
+  //correct usage
+
+
+</script>
+

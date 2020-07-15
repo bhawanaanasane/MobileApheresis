@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileAheresisAdmin", "MobileAheresisAdmin\MobileAheresisAdmin.csproj", "{8C2B2912-B60F-4126-9EE3-64AFC8F0554E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.Core", "CRM.Core\CRM.Core.csproj", "{A242631B-71A8-4AF9-BD6E-2F62F8736037}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.Data", "CRM.Data\CRM.Data.csproj", "{E2282E76-5AD4-4B8A-82BC-6CB0B86FF8D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRM.Services", "CRM.Services\CRM.Services.csproj", "{9E267C34-7B73-4281-A9A7-854DF3F8E5C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileAheresisAPI", "MobileAheresisAPI\MobileAheresisAPI.csproj", "{E8A868C6-36BF-4FDD-BE3A-CA8BC80857D9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C2B2912-B60F-4126-9EE3-64AFC8F0554E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C2B2912-B60F-4126-9EE3-64AFC8F0554E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C2B2912-B60F-4126-9EE3-64AFC8F0554E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C2B2912-B60F-4126-9EE3-64AFC8F0554E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A242631B-71A8-4AF9-BD6E-2F62F8736037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A242631B-71A8-4AF9-BD6E-2F62F8736037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A242631B-71A8-4AF9-BD6E-2F62F8736037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A242631B-71A8-4AF9-BD6E-2F62F8736037}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2282E76-5AD4-4B8A-82BC-6CB0B86FF8D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2282E76-5AD4-4B8A-82BC-6CB0B86FF8D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2282E76-5AD4-4B8A-82BC-6CB0B86FF8D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2282E76-5AD4-4B8A-82BC-6CB0B86FF8D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E267C34-7B73-4281-A9A7-854DF3F8E5C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E267C34-7B73-4281-A9A7-854DF3F8E5C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E267C34-7B73-4281-A9A7-854DF3F8E5C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E267C34-7B73-4281-A9A7-854DF3F8E5C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8A868C6-36BF-4FDD-BE3A-CA8BC80857D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8A868C6-36BF-4FDD-BE3A-CA8BC80857D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8A868C6-36BF-4FDD-BE3A-CA8BC80857D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8A868C6-36BF-4FDD-BE3A-CA8BC80857D9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {29064933-D9ED-4007-9088-EB9DF3EDB08B}
+	EndGlobalSection
+EndGlobal

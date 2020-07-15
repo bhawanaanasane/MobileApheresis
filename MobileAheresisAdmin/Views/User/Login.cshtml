@@ -1,0 +1,70 @@
+﻿@model MobileAheresisAdmin.Models.CustomerLogin.LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+@{ Layout = null; }
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- ================== Basics =================== -->
+    <link rel="icon" href="~/assets/img/previews/service-img.png" type="image/x-icon">
+    <title>-Mobile-apheresis</title>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
+
+</head>
+
+
+<body>
+
+    <div class="layout">
+
+        <div class="section-left"><img class="img-responsive logo-section-mobile" src="~/assets/img/logo-bg.png"></div>
+        <div class="section-left-mobile"><img class="img-responsive logo-section-mobile center" src="~/assets/img/dummy/Mobile-background.png"></div>
+
+        <div class="section-right">
+            <div class="middel-section">
+                <form asp-controller="User" asp-action="Login" method="post">
+                    @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+                    {
+                        // Bootstrap 2 = "alert-error", Bootstrap 3 and 4 = "alert-danger"
+                        <div asp-validation-summary="All" class="alert alert-danger alert-error">
+                            <a class="close" data-dismiss="alert">&times;</a>
+                        </div>
+                    }
+                    <div class="welcome-text">Welcome To Apheresis </div>
+
+
+                    <div class="user-section">
+                        <div class="img-box"><img class="img-icon" src="~/assets/img/user-icon.png"></div>
+
+                        <input asp-for="Email" class="username-box fa fa-user" type="text" value="">
+                    </div>
+
+
+                    <div class="user-section">
+                        <div class="img-box"><img class="img-icon" src="~/assets/img/password-icon.png"></div>
+                        <input asp-for="Password" type="password" class="password-box" required="">
+                    </div>
+
+                    <br>
+
+                    <div class="user-section">
+                        <button type="submit" class="login-button continue">Continue</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+﻿@model MobileAheresisAdmin.Models.UsersRole.CustomerRoleListModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+
+<div class="row">
+
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/Home/Index">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">User Role List</li>
+
+        </ol>
+    </div>
+
+</div>
+
+
+<div class="container-fluid my-3">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card no-b">
+                <div class="card-body">
+
+
+                    <table id="ReportTable" class="table table-sm table-light  table-bordered table-hover data-tables  "
+                           data-options='{"searching":false}'>
+                        <thead class="bg-light text-black">
+                            <tr>
+                                <th width="35%">Name</th>
+                                <th width="35%">Description</th>
+                                <th width="12%" class="text-center sorting_asc_disabled sorting_desc_disabled">Status</th>
+                                <th width="8%" class="sorting_asc_disabled sorting_desc_disabled"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var UserRoles in Model.ListCustomerRole)
+                            {
+                            <tr>
+                                <td class="s-12">
+                                    @UserRoles.Name
+                                </td>
+
+                                <td class="s-12">
+                                    @UserRoles.Description
+                                </td>
+
+                                <td class="text-center">
+                                    @if (UserRoles.Active == true)
+                                    {
+                                        <span class="badge badge-success ">Active</span>
+
+                                    }
+                                    @if (UserRoles.Active == false)
+                                    {
+
+                                        <span class="badge badge-warning">Inactive</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+
+                                    <a href="~/UserRoles/Edit/@UserRoles.Id" onclick="showloaderfn()"><i class="icon-edit lblue-text ml-2 handCursor"></i></a>
+                                  
+                                   
+                                    <a data-target="#DeleteModal" data-toggle="modal" onclick="ShowDeleteConfirmationWithResponse('PostDeleteUserRole(@UserRoles.Id)')"><i class="icon-trash text-red ml-2 handCursor"></i></a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<a asp-controller="UserRoles" asp-action="Create" class="btn-fab btn-fab-md fab-right fab-right-bottom-fixed shadow btn-primary" onclick="showloaderfn()"><i class="icon-add"></i></a>
+<script src="~/assets/CustomJs/Delete.js"></script>

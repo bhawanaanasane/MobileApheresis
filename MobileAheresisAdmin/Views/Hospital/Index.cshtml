@@ -1,0 +1,89 @@
+﻿@model MobileAheresisAdmin.Models.Hospitals.HospitalListModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+<div class="row">
+
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/Home/Index">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Hospital List</li>
+
+        </ol>
+    </div>
+
+</div>
+
+<div class="container-fluid my-3">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card no-b">
+                <div class="card-body">
+
+
+                    <table id="ReportTable" class="table table-sm table-light  table-bordered table-condensed table-hover data-tables "
+                           data-options='{"searching":false,"sorting":false}'>
+                        <thead class="bg-light text-black">
+                            <tr>
+                                <th width="45%">Hospital Name</th>
+
+                                <th width="45%">Contact Person</th>
+                              
+                                <th width="10%" class="sorting_asc_disabled sorting_desc_disabled"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var hospital in Model.hospitalList)
+                            {
+                                <tr>
+
+                                    <td class="s-12">
+                                        <label>@hospital.HospitalName</label>
+                                    </td>
+                                    <td class="s-12">
+                                        <label>@hospital.ContactPerson</label>
+                                    </td>
+
+                                  
+                                    <td class="text-center">
+
+                                        <a href="~/Hospital/Edit/@hospital.Id" onclick="showloaderfn()"><i class="icon-edit lblue-text ml-2 handCursor"></i></a>
+                                        <a data-target="#DeleteModal" data-toggle="modal" onclick="ShowDeleteConfirmationWithResponse('PostDeleteHospital(@hospital.Id)')"><i class="icon-trash text-red ml-2 handCursor"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<a asp-action="Create" onclick="showloaderfn()" class="btn-fab btn-fab-md fab-right fab-right-bottom-fixed shadow btn-primary"><i class="icon-add"></i></a>
+<script src="~/assets/CustomJs/Delete.js"></script>
+
+

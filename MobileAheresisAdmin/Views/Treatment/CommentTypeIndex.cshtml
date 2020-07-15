@@ -1,0 +1,128 @@
+﻿@model MobileAheresisAdmin.Models.Treatments.CommentTypeListModel
+@{
+    ViewData["Title"] = "CommentTypeIndex";
+}
+
+
+
+
+@{if (TempData["title"] != null)
+    {
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+
+<script src="~/assets/js/jquery-3.2.1.min.js"></script>
+
+<script src="~/assets/js/jquery.unobtrusive-ajax.js"></script>
+
+<div class="row">
+
+    <div class="col-md-12">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="~/Home/Index">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Comment Type List</li>
+
+        </ol>
+    </div>
+
+
+</div>
+
+<form asp-controller="CompanyProfile" asp-action="Index" method="post" id="ListForm">
+
+    <div class="col-md-12">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card no-b">
+                    <div class="card-body">
+
+                        <table id="ReportTable" class="table table-sm table-light  table-bordered  table-condensed table-hover dataTables_paginate  ">
+                            <thead class="bg-light text-black">
+                                <tr>
+                                    @*<th class="sorting_asc_disabled sorting_desc_disabled" width="3%">
+
+                                        </th>*@
+                                    <th class="text-left" width="60%">Comment Type Name</th>
+
+                                    <th class="text-center" width="30%">Status</th>
+
+                                    <th class="sorting_asc_disabled sorting_desc_disabled" width="10%"></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    if (Model.commentTypes != null)
+                                    {
+                                        //To make unique Id
+                                        int i = 0;
+                                        @foreach (var item in Model.commentTypes)
+                                        {
+                                            <tr>
+                                                @Html.HiddenFor(o => o.commentTypes[i].Id)
+                                                @Html.HiddenFor(modelItem => item.Id)
+
+
+                                                <td class="text-left">
+                                                    @Html.DisplayFor(modelItem => item.CommentTypeName)
+                                                </td>
+                                                                                              
+
+                                                <td class="text-center">
+                                                    @if (item.IsActive == true)
+                                                    {
+                                                        <span class="badge badge-success r-5">Active</span>
+
+                                                    }
+                                                    @if (item.IsActive == false)
+                                                    {
+
+                                                        <span class="badge badge-warning r-5">Inactive</span>
+                                                    }
+                                                </td>
+
+                                                <td class="text-center">
+                                                    <a href="~/Treatment/CommentTypeCreate/@item.Id" onclick="showloaderfn()"><i class="icon-edit lblue-text  handCursor"></i></a>
+                                                    <a data-target="#DeleteModal" data-toggle="modal" onclick="ShowDeleteConfirmationWithResponse('PostDeleteCommentType(@item.Id)')"><i class="icon-trash text-red ml-2 handCursor"></i></a>
+                                                </td>
+                                            </tr>
+                                            i++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr class="text-center">
+                                            <td colspan="8">No data available</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<a href="~/Treatment/CommentTypeCreate/0" onclick="showloaderfn()" class="btn-fab btn-fab-md fab-right fab-right-bottom-fixed shadow btn-primary"><i class="icon-add"></i></a>
+
+
+
+

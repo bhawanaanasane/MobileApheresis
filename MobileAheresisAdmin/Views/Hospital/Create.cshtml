@@ -1,0 +1,277 @@
+﻿@model MobileAheresisAdmin.Models.Hospitals.HospitalModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+<form asp-action="CreateUserCustomer" method="post" onsubmit="return JSFunctionValidate()" >
+
+    @if (ViewData.ModelState.Any(x => x.Value.Errors.Any()))
+    {
+        // Bootstrap 2 = "alert-error", Bootstrap 3 and 4 = "alert-danger"
+        <div asp-validation-summary="All" class="alert alert-danger alert-error">
+            <a class="close" data-dismiss="alert">&times;</a>
+        </div>
+    }
+
+
+
+
+    <div class="container-fluid my-3">
+        <div class="row mt-1">
+            <div class="col-md-12">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <ol class="breadcrumb mb-2">
+                            <li class="breadcrumb-item">
+                                <a href="~/Home/Index">Dashboard</a>
+                            </li>
+                            <li class="breadcrumb-item active"><a href="~/Customer/CustomerList">Hospital List</a></li>
+                            <li class="breadcrumb-item active">Add Hospital</li>
+
+                        </ol>
+                    </div>
+                    
+
+                        @*<button type="submit" name="save-continue" class="btn btn-primary btn-sm ml-2 ">
+                                <i class="icon-save mr-2"></i>
+                                Save And Countinue
+                            </button>*@
+
+
+                    
+                </div>
+                <div class="card bg-white mb-3 font-weight-bold">
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-4 text-right text-black ">
+                                        <label class="text-right">Hospital Name</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <div class="input-group text-black">
+                                                <input asp-for="HospitalName" class="form-control s-12" type="text">
+                                                <input asp-for="HospitalAddress.FirstName" class="form-control s-12" hidden type="text" value="--">
+                                                <input asp-for="HospitalAddress.LastName" class="form-control s-12" type="text" value="--" hidden>
+                                                <input asp-for="HospitalAddress.Email" class="form-control s-12" type="text" value="--" hidden>
+                                                <span class="field-validation-valid text-danger" data-valmsg-for="HospitalName" data-valmsg-replace="true"></span>
+                                            
+                                               <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.FirstName" data-valmsg-replace="true"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-1">
+                                    <div class="col-md-4 text-right text-black">
+                                        <label>Contact Person</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input asp-for="ContactPerson" class="form-control s-12 " type="text">
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-4 text-right text-black">
+                                        <label>Contact No</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input asp-for="HospitalAddress.PhoneNumber" class="form-control s-12 " type="text">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                               <!--- <div class="row mt-1">
+                                    <div class="col-md-4 text-right">
+                                        <label>Password</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input asp-for="CustomerPassword.Password" class="form-control s-12 " type="password">
+                                            <span class="field-validation-valid text-danger" data-valmsg-for="CustomerPassword.Password" data-valmsg-replace="true"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-4 text-right">
+                                        <label>Contact No.</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input asp-for="BillingAddress.PhoneNumber" class="form-control s-12 " type="text">
+                                            <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.PhoneNumber" data-valmsg-replace="true"></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+
+
+                                    <div class="col-md-4 text-right">
+                                        <label>Role</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <select class="select2" id="CustomerRole" asp-for="CustomerRole.Id" asp-items="Model.AvailableCustomerRoles"></select>
+                                            <span class="field-validation-valid text-danger" data-valmsg-for="CustomerRole.Id" data-valmsg-replace="true"></span>
+
+                                        </div>
+                                    </div>
+
+                                </div>-->
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+
+                                    <div class="col-md-4 text-right text-black">
+                                        <label class="text-right">Address</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input asp-for="HospitalAddress.Address1" class="form-control s-12" type="text">
+                                            
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row mt-1">
+
+                                    <div class="col-md-4 text-right text-black">
+                                        <label>Address2</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input asp-for="HospitalAddress.Address2" class="form-control s-12 " type="text">
+                                           
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!---  <div class="row mt-1">
+
+        <div class="col-md-4 text-right">
+            <label>Country</label>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <select class="select2" asp-for="BillingAddress.CountryId" asp-items="Model.AvailableCountries" onchange="GetStateByCountryId(0)"></select>
+                <span class="field-validation-valid text-danger" data-valmsg-for="BillingAddress.CountryId" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+    </div>-->
+
+                                <div class="row  mt-1">
+
+                                    <div class="col-md-4 text-right text-black">
+                                        <label asp-for="HospitalAddress.StateProvince">State</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input asp-for="HospitalAddress.StateProvince" class="form-control s-12 " type="text">
+                                         
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row  mt-1">
+
+                                    <div class="col-md-4 text-right text-black">
+                                        <label>City</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input asp-for="HospitalAddress.City" class="form-control s-12 " type="text">
+                                            
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row  mt-1">
+
+                                    <div class="col-md-4 text-right text-black">
+                                        <label>Zip Code</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input asp-for="HospitalAddress.ZipPostalCode" class="form-control s-12 " type="text">
+                                            
+
+                                        </div>
+                                    </div>
+                                </div>
+                                @* 10/10/2019 aakansha *@
+                                @* Submit Button in Card Footer *@
+                                <div class="card-footer white border-0">
+                                    <div class="col-md-12 text-right ">
+                                        <div class="col-md-12 row">
+                                            <div class="col-md-7"></div>
+                                            <div class="col-md-5 pr-5">
+                                                <button type="submit" name="save-continue" id="GenerealSubmitbtn" onclick="showloaderfn()" class="btn btn-primary btn-sm ml-2 ">
+                                                    <i class="icon-save mr-2"></i>
+                                                    Submit
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+
+                            </div>
+
+
+                            <!--Customer Details -->
+
+
+
+
+                        
+
+                    </div>
+                </div>
+            </div>
+      
+        </div>
+        </div>
+</form>
+
+

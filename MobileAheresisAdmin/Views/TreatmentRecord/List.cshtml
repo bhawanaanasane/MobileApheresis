@@ -1,0 +1,276 @@
+﻿@model MobileAheresisAdmin.Models.TreatmentsRecord.TreatmentRecordListModel
+@using MobileAheresisAdmin.Utils;
+@using CRM.Core.Domain.TreatmentRecords;
+@using System.ComponentModel;
+@{
+    ViewData["Title"] = "List";
+}
+@*26/09/19 aakansha*@
+@{if (TempData["title"] != null)
+    {
+
+
+        <div class="toast"
+             data-title=@TempData["title"].ToString()
+             data-message='@TempData["message"].ToString()'
+             data-type=@TempData["type"]>
+        </div>
+
+
+    }
+
+    TempData["title"] = null;
+    TempData["message"] = null;
+    TempData["type"] = null;
+}
+<!---18/09/19 aakansha_-->
+
+<form asp-controller="TreatmentRecord" asp-action="List" method="post" id="ListForm">
+
+    <div class="col-md-12">
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg modal-info">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h4 class="modal-title">Filter / Export</h4>
+
+                        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-5 text-right text-darkenGray">Start Date</div>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input asp-for="StartDate" type="text" value="@{if (Model.StartDate != null) { Convert.ToDateTime(Model.StartDate).ToString("MM/dd/yyyy");}}" class="date-time-picker form-control s-12"
+                                                   data-options='{"timepicker":false, "format":"m/d/Y"}' autocomplete="off">
+
+                                            <span class="input-group-append">
+                                                <span class="input-group-text add-on white">
+                                                    <i class="icon-calendar"></i>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-5 text-right text-darkenGray">End Date</div>
+                                    <div class="col-md-7">
+                                        <div class="input-group">
+                                            <input asp-for="EndDate" type="text" value="@{if (Model.EndDate != null) { Convert.ToDateTime(Model.StartDate).ToString("MM/dd/yyyy");}}" class="date-time-picker form-control s-12"
+                                                   data-options='{"timepicker":false, "format":"m/d/Y"}' autocomplete="off">
+
+                                            <span class="input-group-append">
+                                                <span class="input-group-text add-on white">
+                                                    <i class="icon-calendar"></i>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-5 text-right text-darkenGray">Patient</div>
+                                    <div class="col-md-7">
+                                        <select asp-for="PatientId" asp-items="Model.AvailablePatient" class="select2 "></select>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row mt-1">
+                                    <div class="col-md-5 text-right text-darkenGray">Hospital</div>
+                                    <div class="col-md-7">
+                                        <select asp-for="HospitalId" asp-items="Model.AvailableHospital" class="select2 "></select>
+
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-5 text-right text-darkenGray">Nurse</div>
+                                    <div class="col-md-7">
+                                        <select asp-for="NurseId" asp-items="Model.AvailableNurse" class="select2 "></select>
+
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-5 text-right text-darkenGray">Daignosis</div>
+                                    <div class="col-md-7">
+                                        <select asp-for="DaignosisId" asp-items="Model.AvailableDaignosis" class="select2 "></select>
+
+                                    </div>
+                                </div>
+
+                             </div>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer bg-white">
+                        <button type="submit" name="SubmitButton" id="dropdownMenuButton" data-toggle="dropdown" onclick="return validateSelected()" aria-haspopup="true" aria-expanded="false" class="btn  bg-success btn-sm ml-2 button-clrproperty">
+                            <i class="icon-folder-download white-text"></i>
+                            Download
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <button type="submit" class=" btn btn-sm black-text dropdown-item text-black" name="submittbutton" onclick="return validateSelected()" value="ExportPDF"> <i class="icon-document-file-pdf white-text"></i>PDF</button>
+                            <button type="submit" name="submittbutton" onclick="return validateSelected()" value="ExportExcel" class=" btn btn-sm black-text dropdown-item text-black"><i class="icon-file-excel-o white-text"></i>EXCEL</button>
+                            @*<button type="submit" name="submittbutton" onclick="return validateSelected()" value="ExprtWord" class=" btn btn-sm black-text dropdown-item text-black"><i class="icon-file-excel-o white-text"></i>Word file</button>*@
+
+                        </div>
+                        <button type="submit" id="search-orders" onclick="showloaderfn()" class="btn btn-sm btn-primary">Search</button>
+
+                        @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card no-b">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <label class="text-left text-nowrap"> Show <select class="select2" name="PageSize" id="PageSize" asp-items="ViewBag.PageSizeDropdown" onchange="submitForm('InventoryReportLocationList')"></select> entries</label>
+                                </div>
+                                <div class="col-sm-12 col-md-6 text-right mb-1">
+                                    <button type="button" class="btn bg-purple btn-sm ml-2 button-clrproperty" data-toggle="modal" data-target="#myModal">
+                                        Filter / Export
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table id="ReportTable" class="table table-sm table-light table-bordered table-condensed table-hover  mt-1"
+                   data-options='{"searching":false",scrollY": "50vh","scrollCollapse": true}'>
+                <thead class="bg-light text-black">
+                    <tr>
+                        @*<th class="sorting_asc_disabled sorting_desc_disabled" width="3%">
+
+                        </th>*@
+                        <!--19/09/19 aakansha-->
+
+                        <th class="text-left" width="17%">PateintName  </th>
+                        <th class="text-left" width="15%">NurseName</th>
+                        <th class="text-left" width="10%">HospitalName</th>
+                        <th class="text-left" width="10%">ContactPerson</th>
+                        <th class="text-left" width="10%">DoctorName</th>
+                        <th class="text-left" width="6%">Room</th>
+                        <th class="text-left" width="4%">EquipSerial</th>
+                        <th class="text-left" width="10%">EquipmentName</th>
+                        <th class="text-left" width="10%"> PMDate</th>
+                        <th class="text-left" width="6%">TreatmentStatus</th>
+                        <th class="sorting_asc_disabled sorting_desc_disabled" width="2%"></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model.List.Results != null)
+                        {
+                            //To make unique Id
+                            int i = 0;
+                            @foreach (var item in Model.List.Results)
+                            {
+                                <tr>
+                                    @Html.HiddenFor(o => o.List.Results[i].TreatmentRecordId)
+                                    @Html.HiddenFor(modelItem => item.TreatmentRecordId)
+
+
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.PateintName) (@Html.DisplayFor(modelItem => item.MR))
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.NurseFirstName) (@Html.DisplayFor(modelItem =>item.NurseLastName))
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.HospitalName)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.ContactPerson)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.DoctorName)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Room)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.EquipSerial)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.EquipmentName)
+                                                        </td>
+                                                        <td>
+
+                                        @{
+                                            var StringPMDate = "";
+                                            if (item.PMDate != null)
+                                            {
+                                                var PMDate = Convert.ToDateTime(item.PMDate);
+
+                                                StringPMDate = PMDate.ToShortDateString();
+                                            }
+                                        }
+                                        @StringPMDate
+
+
+
+                                    </td>
+
+                                    <td class="text-center s-12">
+                                        @{ var type = typeof(TreatmentStatus);
+                                            var member = type.GetMember(item.TreatmentStatus.ToString());
+                                            var attributes = member[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                                            var name = ((DescriptionAttribute)attributes[0]).Description;
+                                            <div class="TreatmentRecord"><span class="badge TreatmentStatus-@item.TreatmentStatus.ToString().ToLowerInvariant()">@item.TreatmentStatus</span></div>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="/TreatmentRecord/ViewTreatmentRecord/@item.TreatmentRecordId" onclick="showloaderfn()"><i class="icon-eye lblue-text  handCursor"></i></a>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr class="text-center">
+                                <td colspan="8">No data available</td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>
+            @(await Component.InvokeAsync<PagerViewComponent>(Model.List))
+        </div>
+    
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
